@@ -39,7 +39,7 @@ bool BrickBuilder::BuildBrick(char const * fileName, Triplet const & dimension, 
 
 	float hi = 0.5f;
 	float lo = -0.5f;
-	float gap = 0.05f;
+	float gap = 0.00f;
 
 	Triplet TLN(dimension.X * lo + gap, dimension.Y * hi - gap, dimension.Z * hi - gap);
 	Triplet TRN(dimension.X * hi - gap, dimension.Y * hi - gap, dimension.Z * hi - gap);
