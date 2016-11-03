@@ -14,7 +14,7 @@ namespace Legolizer
 */
 
             //new GenerateStaticBricks().OutputToLdr(bricks);
-            new OpenGLSceneWriter("..\\..\\..\\Scenes\\Scene.scene");
+            new OpenGLSceneWriter("..\\..\\..\\Scenes\\Scene.scene").Write(bricks);
         }
     }
 }
