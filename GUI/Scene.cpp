@@ -55,14 +55,24 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 
 	std::stringstream stream;
 	GLfloat zerof(0);
+	GLfloat offf(1.5);
 	GLint zeroi(0);
+	GLint eithRoti(45);
 	
 	stream.write((char const *)&zeroi, sizeof(GLint));
 	stream.write((char const *)&zerof, sizeof(GLfloat));
 	stream.write((char const *)&zerof, sizeof(GLfloat));
 	stream.write((char const *)&zerof, sizeof(GLfloat));
+	stream.write((char const *)&eithRoti, sizeof(GLint));
+
 	stream.write((char const *)&zeroi, sizeof(GLint));
+	stream.write((char const *)&offf, sizeof(GLfloat));
+	stream.write((char const *)&offf, sizeof(GLfloat));
+	stream.write((char const *)&offf, sizeof(GLfloat));
+	stream.write((char const *)&zeroi, sizeof(GLint));
+
 	stream.seekg(0, std::ios::beg);
+	items.push_back(SceneItem(stream));
 	items.push_back(SceneItem(stream));
 
 	return true;
