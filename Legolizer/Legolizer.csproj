@@ -55,6 +55,10 @@
       <Project>{5caae485-7b39-4590-82f8-ffc83051dc8b}</Project>
       <Name>legolize</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LegoModeler\LegoModeler.csproj">
+      <Project>{ded6c52e-8d4d-4963-b9de-deed1ec12fe5}</Project>
+      <Name>LegoModeler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PointCloudGen\PointCloudGen.csproj">
       <Project>{08979c8d-ecb9-4411-932b-88bbbb1d7d8c}</Project>
       <Name>PointCloudGen</Name>

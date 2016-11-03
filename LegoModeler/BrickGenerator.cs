@@ -1,6 +1,6 @@
 using System;
 
-namespace ConsoleApplication
+namespace LegoModeler
 {
     public class GenerateStaticBricks : IGenerator
     {
@@ -20,7 +20,7 @@ namespace ConsoleApplication
             var ldrResult = BrickConvertor.ConvertToLdr(bricks);
 
             //output to file
-            System.IO.StreamWriter file = new System.IO.StreamWriter("c:\\legolize.ldr");
+            System.IO.StreamWriter file = new System.IO.StreamWriter("C:\\work\\users\\fehy\\playground\\hackatlon\\data\\legolize.ldr");
             foreach (var item in ldrResult)
                file.WriteLine(item);
             file.Close();

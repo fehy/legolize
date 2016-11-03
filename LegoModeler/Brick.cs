@@ -5,7 +5,7 @@ namespace LegoModeler
     {
         B1x1,
         B2x2,
-        B4x4
+        B4x2
     }
 
     public enum BrickRotation
