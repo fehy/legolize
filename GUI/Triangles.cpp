@@ -20,6 +20,13 @@ void PntVector::Print(std::vector<GLfloat> & target) const
 	target.push_back(Z);
 }
 
+void PntVector::Print(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation) const
+{
+	target.push_back(X);
+	target.push_back(Y);
+	target.push_back(Z);
+}
+
 Vertice::Vertice(std::istream & stream)
 	: Position(stream), Color(stream)
 {}
@@ -28,11 +35,11 @@ Triangle::Triangle(std::istream & stream)
 	: A(stream), B(stream), C(stream), Normal(stream)
 {}
 
-void Triangle::PrintVertexPosition(std::vector<GLfloat> & target)
+void Triangle::PrintVertexPosition(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation)
 {
-	A.Position.Print(target);
-	B.Position.Print(target);
-	C.Position.Print(target);
+	A.Position.Print(target, offset, rotation);
+	B.Position.Print(target, offset, rotation);
+	C.Position.Print(target, offset, rotation);
 }
 
 void Triangle::PrintVertexColor(std::vector<GLfloat> & target)

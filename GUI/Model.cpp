@@ -22,10 +22,10 @@ Model::Model(std::istream & stream)
 	: Triangles(loadModel(stream))
 {}
 
-void Model::PrintVertexPositions(std::vector<GLfloat> & target) const
+void Model::PrintVertexPositions(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation) const
 {
 	for (auto triangle : Triangles)
-		triangle.PrintVertexPosition(target);
+		triangle.PrintVertexPosition(target, offset, rotation);
 }
 
 void Model::PrintVertexColors(std::vector<GLfloat> & target) const

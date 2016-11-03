@@ -23,6 +23,7 @@ struct PntVector
 	PntVector(std::istream & stream);
 
 	void Print(std::vector<GLfloat> & target) const;
+	void Print(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation) const;
 };
 
 struct Vertice
@@ -53,7 +54,7 @@ struct Triangle
 	// Norm.X, Norm.Y, Norm.Z
 	Triangle(std::istream & stream);
 
-	void PrintVertexPosition(std::vector<GLfloat> & target);
+	void PrintVertexPosition(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation);
 	void PrintVertexColor(std::vector<GLfloat> & target);
 };
 
