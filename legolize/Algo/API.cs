@@ -32,7 +32,7 @@ namespace Legolize.Algo
     struct Slot
     {
         public int Priority { get; private set; }
-        public void IncreasePriority() => Priority++;                    
+        public void IncreasePriority(int amount = 1) => Priority+= amount;                    
         public Brick Brick { get; }
 
         public Slot(Brick brick, int priority)
@@ -45,7 +45,7 @@ namespace Legolize.Algo
     interface ISlotPriorityQueue : IList<Slot>
     {
         ISlotPriorityQueue DeepClone();
-        void IncreasePriority(int iSlot);
+        void IncreasePriority(int iSlot, int amount = 1);
         void Insert(Slot item);
     }
 

@@ -7,14 +7,18 @@ namespace Legolize.Algo
     class BruteForceAlgo
     {
         private readonly Stack<IModelMaster> _masters = new Stack<IModelMaster>();
+        private readonly Config _config;
+
         private object _lockBest = new object();
         private Brick[] _bestSoFar;
         private int _volumeSoFar = 0;
         private IModel _bestModel;
+        
 
         public BruteForceAlgo(IModelMaster master)
         {
             _masters.Push(master);
+            _config = new Config();
         }
 
         public void StepForward()
@@ -56,6 +60,9 @@ namespace Legolize.Algo
 
             for (var i = 0; i < cycles; i++)
             {
+                if ((i & 0x1ffff) == 0)
+                    Console.WriteLine(i);
+
                 while (_masters.Count > 0 && _masters.Peek().NRemainingSlotsToSearch == 0)
                     StepBack();
 
@@ -66,9 +73,12 @@ namespace Legolize.Algo
                 if (!_masters.Peek().Model.HasAny())
                     return _bestSoFar;
 
-                //Console.WriteLine($"Cycle: {i}");
-                //Console.WriteLine(_masters.Peek().Model);
-                //Console.ReadKey();
+                if (_config.DebugStepping)
+                {
+                    Console.WriteLine($"Cycle: {i}");
+                    Console.WriteLine(_masters.Peek().Model);
+                    Console.ReadKey();
+                }
             }
             Console.WriteLine(_bestModel);
             return _bestSoFar;
