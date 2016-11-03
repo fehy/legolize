@@ -24,12 +24,24 @@
     <ClCompile Include="ConfigHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BrickBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Triplet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeightMapHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConfigHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Triplet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,30 +1,10 @@
 #ifndef _HeightMapHandler_h_
 #define _HeightMapHandler_h_
 
-struct Triple;
-class HeightMapHandler;
+struct Triplet;
 
 #include <windows.h>
-#include <fstream>
-
-struct Triple
-{
-   float X;
-   float Y;
-   float Z;
-
-   Triple operator-(Triple const & other) const;
-
-   static Triple CrossProduct(Triple const & left, Triple const & right);
-
-   static float DotProduct(Triple const & left, Triple const & right);
-
-   static Triple ComputeNormal(Triple const & a, Triple const & b, Triple const & c);
-
-   Triple(float x, float y, float z);
-   
-   void Serialize(std::ostream & stream) const;
-};
+#include <iostream>
 
 class HeightMapHandler
 {    
@@ -61,7 +41,7 @@ class HeightMapHandler
    /// \param [in] b Point B of triangle
    /// \param [in] c Point C of triangle
    /// \return whether operation succeeded
-   bool storeTriangle(std::ostream & stream, Triple const & a, Triple const & b, Triple const & c) const;
+   bool storeTriangle(std::ostream & stream, Triplet const & a, Triplet const & b, Triplet const & c) const;
 
    /// Extracts value from given position (respects bit depth), also advances pointer to next value
    /// \param [in,out] firstByte First byte of desired value, will be advanced to next value
@@ -77,7 +57,7 @@ class HeightMapHandler
    /// \param [in] x X coordinate
    /// \param [in] y Y coordinate
    /// \param [in] z Z coordinate
-   Triple normalizeValues(int x, int y, int z) const;
+   Triplet normalizeValues(int x, int y, int z) const;
 
    public:
       HeightMapHandler();
