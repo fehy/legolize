@@ -105,7 +105,6 @@ void Loader::createDefaultConfig_Models(std::ostream & stream)
 		<< "Model " << "..\\..\\..\\..\\Models\\11.model" << "\t\t; Models - to be used in order" << std::endl
 		<< "Model " << "..\\..\\..\\..\\Models\\22.model" << "\t\t; Models - to be used in order" << std::endl
 		<< "Model " << "..\\..\\..\\..\\Models\\42.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\44.model" << "\t\t; Models - to be used in order" << std::endl
 		<< "Model " << "..\\..\\..\\..\\Models\\sample.model" << "\t\t; Models - to be used in order" << std::endl
 		;
 }
