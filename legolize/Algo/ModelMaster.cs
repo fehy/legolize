@@ -54,56 +54,56 @@ namespace Legolize.Algo
             List<Brick> result = new List<Brick>();
 
 
-            int zt = brick.RightUpFar.Z+1; //on top
+            int zt = brick.RightUpFar.Z; //on top
             int zb = brick.LeftLowNear.Z-1;//at bottom
 
             // hardcoding all bricks 
             // 1x1
-            for (var x = brick.LeftLowNear.X; x <= brick.RightUpFar.X; x++)
+            for (var x = brick.LeftLowNear.X; x < brick.RightUpFar.X; x++)
             {
-                for (var y = brick.LeftLowNear.Y; y <= brick.RightUpFar.Y; y++)
+                for (var y = brick.LeftLowNear.Y; y < brick.RightUpFar.Y; y++)
                 {
-                    if (Model[x, y, brick.RightUpFar.Z + 1])
-                        result.Add(new Brick(new Point(x, y, zt), new Point(x, y, zt)));
+                    if (Model[x, y, zt])
+                        result.Add(new Brick(new Point(x, y, zt), new Point(x+1, y+1, zt+1)));
 
-                    if (Model[x, y, brick.LeftLowNear.Z - 1])
-                        result.Add(new Brick(new Point(x, y, zb), new Point(x, y, zb)));
+                    if (Model[x, y, zb])
+                        result.Add(new Brick(new Point(x, y, zb), new Point(x+1, y+1, zb+1)));
                 }
 
             }
 
             // 2x2 top
-            for (var x = brick.LeftLowNear.X-1; x <= brick.RightUpFar.X; x++)
+            for (var x = brick.LeftLowNear.X-1; x < brick.RightUpFar.X; x++)
             {
-                for (var y = brick.LeftLowNear.Y-1; y <= brick.RightUpFar.Y; y++)
+                for (var y = brick.LeftLowNear.Y-1; y < brick.RightUpFar.Y; y++)
                 {
                     if (Model[x, y+1, zt] || Model[x+1, y+1, zt])
                       { y++; continue; }
                     if (Model[x, y, zt] || Model[x + 1, y, zt])
                         continue;
-                    result.Add(new Brick(new Point(x, y, zt), new Point(x+1, y+1, zt)));
+                    result.Add(new Brick(new Point(x, y, zt), new Point(x+2, y+2, zt+1)));
                 }
             }
 
             // 2x2 bottom
-            for (var x = brick.LeftLowNear.X-1; x <= brick.RightUpFar.X; x++)
+            for (var x = brick.LeftLowNear.X-1; x < brick.RightUpFar.X; x++)
             {
-                for (var y = brick.LeftLowNear.Y-1; y <= brick.RightUpFar.Y; y++)
+                for (var y = brick.LeftLowNear.Y-1; y < brick.RightUpFar.Y; y++)
                 {
                     if (Model[x, y+1, zb] || Model[x+1, y+1, zb])
                     { y++; continue; }
                     if (Model[x, y, zb] || Model[x + 1, y, zb])
                         continue;
-                    result.Add(new Brick(new Point(x, y, zb), new Point(x + 1, y + 1, zb)));
+                    result.Add(new Brick(new Point(x, y, zb), new Point(x + 2, y + 2, zb+1)));
                 }
             }
 
 
 
             // 4x2 top (rotation stretching in y)
-            for (var x = brick.LeftLowNear.X - 1; x <= brick.RightUpFar.X; x++)
+            for (var x = brick.LeftLowNear.X - 1; x < brick.RightUpFar.X; x++)
             {
-                for (var y = brick.LeftLowNear.Y - 3; y <= brick.RightUpFar.Y; y++)
+                for (var y = brick.LeftLowNear.Y - 3; y < brick.RightUpFar.Y; y++)
                 {
                     if (Model[x, y + 3, zt] || Model[x + 1, y + 3, zt])
                     { y += 3; continue; }
@@ -113,14 +113,14 @@ namespace Legolize.Algo
                     { y++; continue; }
                     if (Model[x, y, zt] || Model[x + 1, y+1, zt])
                         continue;
-                    result.Add(new Brick(new Point(x, y, zt), new Point(x + 1, y + 3, zt)));
+                    result.Add(new Brick(new Point(x, y, zt), new Point(x + 2, y + 4, zt+1)));
                 }
             }
 
             // 4x2 bottom (rotation stretching in y)
-            for (var x = brick.LeftLowNear.X - 1; x <= brick.RightUpFar.X; x++)
+            for (var x = brick.LeftLowNear.X - 1; x < brick.RightUpFar.X; x++)
             {
-                for (var y = brick.LeftLowNear.Y - 3; y <= brick.RightUpFar.Y; y++)
+                for (var y = brick.LeftLowNear.Y - 3; y < brick.RightUpFar.Y; y++)
                 {
                     if (Model[x, y + 3, zb] || Model[x + 1, y + 3, zb])
                     { y += 3; continue; }
@@ -130,14 +130,14 @@ namespace Legolize.Algo
                     { y++; continue; }
                     if (Model[x, y, zb] || Model[x + 1, y, zb])
                         continue;
-                    result.Add(new Brick(new Point(x, y, zb), new Point(x + 1, y + 3, zb)));
+                    result.Add(new Brick(new Point(x, y, zb), new Point(x + 2, y + 4, zb+1)));
                 }
             }
 
             // 2x4 top (rotation stretching in x)
-            for (var y = brick.LeftLowNear.Y - 1; y <= brick.RightUpFar.Y; y++)
+            for (var y = brick.LeftLowNear.Y - 1; y < brick.RightUpFar.Y; y++)
             {
-                for (var x = brick.LeftLowNear.X - 3; x <= brick.RightUpFar.X; x++)
+                for (var x = brick.LeftLowNear.X - 3; x < brick.RightUpFar.X; x++)
                 {
                     if (Model[x+3, y, zt] || Model[x + 3, y+1, zt])
                     { x += 3; continue; }
@@ -147,16 +147,16 @@ namespace Legolize.Algo
                     { x++; continue; }
                     if (Model[x, y, zt] || Model[x, y+1, zt])
                         continue;
-                    result.Add(new Brick(new Point(x, y, zt), new Point(x + 3, y + 1, zt)));
+                    result.Add(new Brick(new Point(x, y, zt), new Point(x + 4, y + 2, zt+1)));
                 }
             }
 
 
 
             // 2x4 bottom (rotation stretching in x)
-            for (var y = brick.LeftLowNear.Y - 1; y <= brick.RightUpFar.Y; y++)
+            for (var y = brick.LeftLowNear.Y - 1; y < brick.RightUpFar.Y; y++)
             {
-                for (var x = brick.LeftLowNear.X - 3; x <= brick.RightUpFar.X; x++)
+                for (var x = brick.LeftLowNear.X - 3; x < brick.RightUpFar.X; x++)
                 {
                     if (Model[x + 3, y, zb] || Model[x + 3, y + 1, zb])
                     { x += 3; continue; }
@@ -166,7 +166,7 @@ namespace Legolize.Algo
                     { x++; continue; }
                     if (Model[x, y, zb] || Model[x, y + 1, zb])
                         continue;
-                    result.Add(new Brick(new Point(x, y, zb), new Point(x + 3, y + 1, zb)));
+                    result.Add(new Brick(new Point(x, y, zb), new Point(x + 4, y + 2, zb+1)));
                 }
             }
 
