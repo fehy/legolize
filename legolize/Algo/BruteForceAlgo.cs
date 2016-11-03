@@ -57,6 +57,7 @@ namespace Legolize.Algo
 
                 Console.WriteLine($"Cycle: {i}");
                 Console.WriteLine(_masters.Peek().Model);
+                Console.ReadKey();
             }
 
             return _bestSoFar;

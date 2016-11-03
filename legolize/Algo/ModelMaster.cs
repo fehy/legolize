@@ -170,14 +170,14 @@ namespace Legolize.Algo
                 }
             }
 
-            return result.ToArray();
+            return result.Select(x => new Brick(new Point(x.LeftLowNear.X, x.LeftLowNear.Y, x.LeftLowNear.Z - 1), new Point(x.RightUpFar.X + 1, x.RightUpFar.Y + 1, x.RightUpFar.Z))).ToArray();
         }
 
         // Take latest added Brick
         // Add new slots introduces by Brick
         public bool CreateNewSlots()
         {
-            var brick = Bricks.Pop();
+            var brick = Bricks.Peek();
             var potentialBricks = AllNewBricksFor(brick);
 
             var before = Slots.Count;

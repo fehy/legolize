@@ -31,11 +31,12 @@ namespace Legolize
             Console.Write(model);
 
             var master = new ModelMaster(model);
-            master.Bricks.Push(new Brick());
+            master.Bricks.Push(new Brick(new Point(0,0,-1), new Point(max.X - min.X + 1, max.Y - min.Y + 1,0)));
             master.CreateNewSlots();
 
             var algo = new BruteForceAlgo(master);
-            algo.Go(10);
+            algo.Go(1000000);
+
         }
     }
 }
