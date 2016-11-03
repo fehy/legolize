@@ -9,6 +9,7 @@ namespace Legolize.Algo
         public ISlotPriorityQueue Slots { get; }
         public Stack<Brick> Bricks { get; }
         public IModel Model { get; }
+        public Config Config { get; }
 
         private int _nextSlotPosition = 0;
         private int _endSlotPosition;
@@ -41,7 +42,7 @@ namespace Legolize.Algo
             Model.Set(brick, false);
 
             // remove invalid slots from SlotPriorityQueue
-            var n = Slots.Count;
+            var n = Slots.Count;            
             for(var i = 0; i < n; i++)
                 if(Slots[i].Brick.InCollision(brick))
                 {
@@ -51,11 +52,21 @@ namespace Legolize.Algo
                 }
 
             // update slot priorities
-            for (var i = 0; i < n; i++)
-                if (Slots[i].Brick.InTouch(brick))
+            if (Config.UseTouchSize)
+            {
+                for (var i = 0; i < n; i++)
                 {
-                    Slots.IncreasePriority(i);
-                }
+                    var inTouchSize = Slots[i].Brick.InTouchSize(brick);
+                    if (inTouchSize > 0)
+                        Slots.IncreasePriority(i, inTouchSize);
+                }                
+            }
+            else
+            {
+                for (var i = 0; i < n; i++)                                    
+                    if (Slots[i].Brick.InTouch(brick))
+                        Slots.IncreasePriority(i);                
+            }
 
             SlotsToSearch = Tuple.Create(0, Slots.Count);                
         }
@@ -197,6 +208,9 @@ namespace Legolize.Algo
                 if (!Model.Can(brickCandidate))
                     continue;
 
+                //TODO check if slot exists
+
+
                 var touches = Config.UseTouchSize
                     ? Bricks.Select(x => brickCandidate.InTouchSize(x)).Sum()
                     : Bricks.Select(x => brickCandidate.InTouch(x) ? 1 : 0).Sum();
@@ -211,12 +225,16 @@ namespace Legolize.Algo
             Model = model;
             Bricks = new Stack<Brick>();
             Slots = new SlotPriorityQueueList();
+            Config = new Config();
         }
 
         private ModelMaster(ModelMaster from, bool deepClone)
         {
             Slots = from.Slots.DeepClone();
             _nextSlotPosition = from._nextSlotPosition;
+            _endSlotPosition = from._endSlotPosition;
+            Config = from.Config;
+
             if (!deepClone)
             {
                 Bricks = from.Bricks;
