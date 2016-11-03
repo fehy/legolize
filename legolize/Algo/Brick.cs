@@ -49,8 +49,10 @@ namespace Legolize.Algo
             if (LineInTouch(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y))
                 return LineCollision(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);
 
-            return LineCollision(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y) &&
-                LineInTouch(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);            
+            // don't calculate Z
+            //return LineCollision(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y) &&
+            //    LineInTouch(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);            
+            return false;
         }
 
         public static int InTouchSize(this Brick a, Brick b)
@@ -66,10 +68,8 @@ namespace Legolize.Algo
             if (LineInTouch(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y))
                 return xLineCollisionSize * LineCollisionSize(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);
 
-
-            return LineInTouch(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z) ?
-                LineCollisionSize(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y) * xLineCollisionSize
-                : 0;
+            // don't calculate Z
+            return 0;            
         }
     }
 }

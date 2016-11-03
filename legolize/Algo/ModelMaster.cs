@@ -122,7 +122,7 @@ namespace Legolize.Algo
                     { y+=2; continue; }
                     if (!Model[x, y + 1, zt] || !Model[x + 1, y+1, zt])
                     { y++; continue; }
-                    if (!Model[x, y, zt] || !Model[x + 1, y+1, zt])
+                    if (!Model[x, y, zt] || !Model[x + 1, y, zt])
                         continue;
                     result.Add(new Brick(new Point(x, y, zt), new Point(x + 2, y + 4, zt+1)));
                 }
