@@ -9,6 +9,8 @@ namespace Legolize.Algo
         bool Can(Brick brick);
         void Set(Brick brick, bool value);
 
+        bool HasAny();
+
         IModel DeepClone();
     }
 
@@ -21,6 +23,8 @@ namespace Legolize.Algo
         }
         public Point LeftLowNear { get; }
         public Point RightUpFar { get; }
+
+        public int Volume => (RightUpFar.X - LeftLowNear.X) * (RightUpFar.Y - LeftLowNear.Y) * (RightUpFar.Z - LeftLowNear.Z);
     }
     
 
@@ -29,31 +33,41 @@ namespace Legolize.Algo
         public int Priority { get; private set; }
         public void IncreasePriority() => Priority++;                    
         public Brick Brick { get; }
+
+        public Slot(Brick brick, int priority)
+        {
+            Priority = priority;
+            Brick = brick;
+        }
     }
 
-    interface SlotPriorityQueue : IList<Slot>
+    interface ISlotPriorityQueue : IList<Slot>
     {
-        SlotPriorityQueue DeepClone();
-        void IncreasePriority(int iSlot);        
+        ISlotPriorityQueue DeepClone();
+        void IncreasePriority(int iSlot);
+        void Insert(Slot item);
     }
 
     interface IModelMaster
     {
-        SlotPriorityQueue Slots { get; }
+        ISlotPriorityQueue Slots { get; }
 
         Stack<Brick> Bricks { get; }
         IModel Model { get; }
+
+        void MoveSlotPosition();
+        int NSlotsToSearch { get; }
 
         // remove slot from SlotPriorityQueue
         // add brick to brick queue
         // remove invalid slots from SlotPriorityQueue
         // update slot priorities
         // update model to remove occupied possitions
-        void SlotToBrick(int iSlotPosition);
+        void SlotToBrick();
 
         // Take latest added Brick
         // Add new slots introduces by Brick
-        void CreateNewSlots();
+        bool CreateNewSlots();
 
         // clone SlotPriorityQueue
         // references Model
