@@ -51,6 +51,12 @@
     <Compile Include="PointCloud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LegoModeler\LegoModeler.csproj">
+      <Project>{ded6c52e-8d4d-4963-b9de-deed1ec12fe5}</Project>
+      <Name>LegoModeler</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

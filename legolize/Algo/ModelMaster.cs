@@ -170,7 +170,7 @@ namespace Legolize.Algo
                 }
             }
 
-            return result.Select(x => new Brick(new Point(x.LeftLowNear.X, x.LeftLowNear.Y, x.LeftLowNear.Z - 1), new Point(x.RightUpFar.X + 1, x.RightUpFar.Y + 1, x.RightUpFar.Z))).ToArray();
+            return result.ToArray();
         }
 
         // Take latest added Brick
@@ -187,7 +187,7 @@ namespace Legolize.Algo
                     continue;
 
                 var touches = Bricks.Select(x => brickCandidate.InTouch(x) ? 1 : 0).Sum();
-                Slots.Insert(new Slot(brickCandidate, touches));
+                Slots.Insert(new Slot(brickCandidate, touches + brickCandidate.Volume));
             }
 
             return Slots.Count > before;

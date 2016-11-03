@@ -7,6 +7,7 @@ namespace Legolize.Algo
     class BruteForceAlgo
     {
         private readonly Stack<IModelMaster> _masters = new Stack<IModelMaster>();
+        private object _lockBest = new object();
         private Brick[] _bestSoFar;
         private int _volumeSoFar = 0;
 
@@ -27,9 +28,16 @@ namespace Legolize.Algo
             var volume = master.Bricks.Select(x => x.Volume).Sum();
             if (volume > _volumeSoFar)
             {
-                _volumeSoFar = volume;
-                _bestSoFar = new Brick[master.Bricks.Count];
-                master.Bricks.CopyTo(_bestSoFar, 0);
+                lock(_lockBest)
+                {
+                    if (volume > _volumeSoFar)
+                    {
+                        _volumeSoFar = volume;
+                        _bestSoFar = new Brick[master.Bricks.Count];
+                        master.Bricks.CopyTo(_bestSoFar, 0);
+                    }
+                }
+                
             }
             
             _masters.Push(master);
@@ -43,6 +51,7 @@ namespace Legolize.Algo
 
         public Brick[] Go(int cycles)
         {
+
             for (var i = 0; i < cycles; i++)
             {
                 while (_masters.Count > 0 && _masters.Peek().NSlotsToSearch == 0)

@@ -5,7 +5,29 @@ namespace Legolize
 {
     public static class Doer
     {
-        public static void Do(PointCloud cloud)
+        private static LegoModeler.Brick[] Convert(Brick[] bricks)
+        {
+            var ret = new LegoModeler.Brick[bricks.Length];
+            for(var i = 0; i < ret.Length; i++)
+            {
+                var vol = bricks[i].Volume;
+
+                if (vol == 1)
+                    ret[i] = new LegoModeler.Brick(LegoModeler.BrickType.B1x1, bricks[i].LeftLowNear.X, bricks[i].LeftLowNear.Y, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0);
+                else if (vol == 4)
+                    ret[i] = new LegoModeler.Brick(LegoModeler.BrickType.B2x2, bricks[i].LeftLowNear.X, bricks[i].LeftLowNear.Y, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0);
+                else if (vol == 8)
+                    ret[i] = new LegoModeler.Brick(LegoModeler.BrickType.B4x2, bricks[i].LeftLowNear.X, bricks[i].LeftLowNear.Y, bricks[i].LeftLowNear.Z,
+                        (bricks[i].RightUpFar.X - bricks[i].LeftLowNear.X) == 4 ? LegoModeler.BrickRotation.R0 : LegoModeler.BrickRotation.R90);
+                else
+                    throw new NotSupportedException(vol.ToString());
+
+            }
+
+            return ret;
+        }
+
+        public static LegoModeler.Brick[] Do(PointCloud cloud)
         {
             Console.Write($"PointCloud with {cloud.Cloud.Length} points");
 
@@ -35,8 +57,7 @@ namespace Legolize
             master.CreateNewSlots();
 
             var algo = new BruteForceAlgo(master);
-            algo.Go(1000000);
-
+            return Convert(algo.Go(1000000));
         }
     }
 }
