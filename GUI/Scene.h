@@ -9,6 +9,7 @@ class Scene;
 #include "CommonClassMacros.h"
 #include "OpenGL.h"
 #include "Triangles.h"
+#include "SceneItem.h"
 
 class Scene
 {
@@ -16,7 +17,10 @@ class Scene
 	static volatile bool reloadThreadRunning;
 	static unsigned _stdcall realoadSceneHandler(void * instance);
 
-	static void reloadScene(std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors);
+	static void reloadScene(std::vector<SceneItem> & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors);
+
+	/// \return success
+	static bool reloadItems(std::vector<SceneItem> & items);
 
 	public:
 		static long SCENE_PERIOD;

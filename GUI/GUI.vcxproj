@@ -115,6 +115,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="OpenGL.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneItem.cpp" />
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="Triangles.cpp" />
   </ItemGroup>
@@ -125,6 +126,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneItem.h" />
     <ClInclude Include="Tools.h" />
     <ClInclude Include="Triangles.h" />
   </ItemGroup>
