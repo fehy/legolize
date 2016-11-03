@@ -12,7 +12,7 @@ namespace Legolize.Algo
 
         private ulong[] _vals;
 
-        private readonly int _xTy;
+        private readonly int _xTy;       
 
         public Model(int xSize, int ySize, int zSize)
         {
@@ -105,6 +105,15 @@ namespace Legolize.Algo
             }
 
             return builder.ToString();
+        }
+
+        public bool HasAny()
+        {
+            for (var i = 0; i < _vals.Length; i++)
+                if (_vals[i] > 0)
+                    return true;
+
+            return false;
         }
     }
 }
