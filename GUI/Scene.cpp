@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <process.h>
 #include <sstream>
+#include <fstream>
 #include "Model.h"
 
 HANDLE Scene::reloadThread(0);
@@ -51,31 +52,24 @@ void Scene::reloadScene(std::vector<SceneItem> & items, std::vector<GLfloat> & v
 
 bool Scene::reloadItems(std::vector<SceneItem> & items)
 {
-	items.clear();
+	std::fstream stream(SceneFile.c_str(), std::ios::in | std::ios::binary);
+	if (!stream)
+		return false;
 
-	std::stringstream stream;
-	GLfloat zerof(0);
-	GLfloat offf(1.5);
-	GLint zeroi(0);
-	GLint eithRoti(45);
-	
-	stream.write((char const *)&zeroi, sizeof(GLint));
-	stream.write((char const *)&zerof, sizeof(GLfloat));
-	stream.write((char const *)&zerof, sizeof(GLfloat));
-	stream.write((char const *)&zerof, sizeof(GLfloat));
-	stream.write((char const *)&eithRoti, sizeof(GLint));
-
-	stream.write((char const *)&zeroi, sizeof(GLint));
-	stream.write((char const *)&offf, sizeof(GLfloat));
-	stream.write((char const *)&offf, sizeof(GLfloat));
-	stream.write((char const *)&offf, sizeof(GLfloat));
-	stream.write((char const *)&zeroi, sizeof(GLint));
-
+	stream.seekg(0, std::ios::end);
+	std::streamoff size(stream.tellg());
 	stream.seekg(0, std::ios::beg);
-	items.push_back(SceneItem(stream));
-	items.push_back(SceneItem(stream));
+	unsigned int records((unsigned int)(size / sizeof(SceneItem)));
 
-	return true;
+	items.clear();
+	items.reserve(records);
+
+	for (auto i(0U); i < records && stream.good(); ++i)
+		items.push_back(SceneItem(stream));
+
+	auto success(stream.good());
+	stream.close();
+	return success;
 }
 
 void Scene::StartHandler()

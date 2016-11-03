@@ -18,5 +18,24 @@ namespace PointCloudGen
 
             return new PointCloud(cloud.ToArray());
         }
+
+        public static PointCloud Cone(int startRadius, int endRadius, int step)
+        {
+            var cloud = new List<Point>();
+            var z = 0;
+            for(var radius = startRadius; radius != endRadius; radius += step, z++)
+            {
+                var radius2 = radius * radius;
+                for (var x = -radius; x < radius; x++)
+                {
+                    var x2 = x * x;
+                    for (var y = -radius; y < radius; y++)
+                        if ((x2 + y * y) < radius2)
+                            cloud.Add(new Point(x, y, z));
+                }
+            }
+            
+            return new PointCloud(cloud.ToArray());
+        }
     }
 }

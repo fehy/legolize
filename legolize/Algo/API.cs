@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Legolize.Algo
 {
@@ -55,8 +56,12 @@ namespace Legolize.Algo
         Stack<Brick> Bricks { get; }
         IModel Model { get; }
 
+
+        Tuple<int, int> SlotsToSearch { set; }
+
         void MoveSlotPosition();
-        int NSlotsToSearch { get; }
+
+        int NRemainingSlotsToSearch { get; }
 
         // remove slot from SlotPriorityQueue
         // add brick to brick queue
