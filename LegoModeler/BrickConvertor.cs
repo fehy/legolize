@@ -65,9 +65,9 @@ namespace LegoModeler
                 //get color and position
 
                 var positionBuilder = new StringBuilder("15 ");
-                positionBuilder.Append(brick.Y * 20 + " ");
-                positionBuilder.Append(brick.Z * 24 + " ");                
-                positionBuilder.Append(brick.X * 20 );                
+                positionBuilder.Append(brick.X * 20 + " ");
+                positionBuilder.Append(-brick.Z * 24 + " ");                
+                positionBuilder.Append(brick.Y * 20 );                
 
                 //get orientation 
                 var orientationBuilder = new StringBuilder(); 
