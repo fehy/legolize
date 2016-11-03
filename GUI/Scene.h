@@ -17,10 +17,12 @@ class Scene
 	static volatile bool reloadThreadRunning;
 	static unsigned _stdcall realoadSceneHandler(void * instance);
 
-	static void reloadScene(std::vector<SceneItem> & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors);
-
 	/// \return success
 	static bool reloadItems(std::vector<SceneItem> & items);
+
+	static void reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors);
+
+	static void centerScene(std::vector<GLfloat> & vertex);
 
 	public:
 		static long SCENE_PERIOD;
