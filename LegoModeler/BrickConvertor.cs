@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleApplication
+namespace LegoModeler
 {
     public static class BrickConvertor
     {
@@ -18,14 +18,27 @@ namespace ConsoleApplication
             switch (type)
             {
                 case BrickType.B1x1:
-                    return "3005.dat";
-                    break;
+                    return "3005.dat";                    
                 case BrickType.B2x2:
-                    return "3003.dat";
-                    break;
-                case BrickType.B4x4:
+                    return "3003.dat";                    
+                case BrickType.B4x2:
+                    return "3001.dat";                    
+                default:
                     throw new NotImplementedException("Brick type " + type + "is not supported");
                     break;
+            }
+        } 
+
+        public static string ConvertBrickTypeToLdrColour(BrickType type)
+        {
+            switch (type)
+            {
+                case BrickType.B1x1:
+                    return "1";                    
+                case BrickType.B2x2:
+                    return "25";                    
+                case BrickType.B4x2:
+                    return "320";                    
                 default:
                     throw new NotImplementedException("Brick type " + type + "is not supported");
                     break;
@@ -66,10 +79,11 @@ namespace ConsoleApplication
             {
                 var subPartIndication = "1";
                 //get color and position
-                var positionBuilder = new StringBuilder("15 "); 
-                positionBuilder.Append(brick.X + " ");
-                positionBuilder.Append(brick.Y + " ");
-                positionBuilder.Append(brick.Z);
+
+                var positionBuilder = new StringBuilder(ConvertBrickTypeToLdrColour(brick.BrickType) + " ");
+                positionBuilder.Append(brick.Y * 20 + " ");
+                positionBuilder.Append(brick.Z * 24 + " ");                
+                positionBuilder.Append(brick.X * 20 );                
 
                 //get orientation 
                 var orientationBuilder = new StringBuilder(); 

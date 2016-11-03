@@ -177,7 +177,7 @@ namespace Legolize.Algo
         // Add new slots introduces by Brick
         public bool CreateNewSlots()
         {
-            var brick = Bricks.Pop();
+            var brick = Bricks.Peek();
             var potentialBricks = AllNewBricksFor(brick);
 
             var before = Slots.Count;
@@ -187,7 +187,7 @@ namespace Legolize.Algo
                     continue;
 
                 var touches = Bricks.Select(x => brickCandidate.InTouch(x) ? 1 : 0).Sum();
-                Slots.Insert(new Slot(brickCandidate, touches));
+                Slots.Insert(new Slot(brickCandidate, touches + brickCandidate.Volume));
             }
 
             return Slots.Count > before;

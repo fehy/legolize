@@ -1,4 +1,4 @@
-namespace ConsoleApplication
+namespace LegoModeler
 {
     public interface IGenerator{
 

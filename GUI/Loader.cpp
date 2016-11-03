@@ -94,7 +94,7 @@ void Loader::createDefaultConfig_Scene(std::ostream & stream)
 	stream
 		<< std::endl << ";;;Scene settings;;;" << std::endl << std::endl
 		<< "Scene_Period " << Scene::SCENE_PERIOD << "\t\t; Minimal delay between scene reload" << std::endl
-		<< ";Scene_File " << "C:\\Temp\\Scene.dat" << "\t\t; Scene file" << std::endl
+		<< "Scene_File " << "..\\..\\..\\..\\Scene\\Scene.scene" << "\t\t; Scene file" << std::endl
 		;
 }
 
