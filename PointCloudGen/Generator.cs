@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Legolize;
+using System.Linq;
 
 namespace PointCloudGen
 {
@@ -36,6 +37,21 @@ namespace PointCloudGen
             }
             
             return new PointCloud(cloud.ToArray());
+        }
+
+        public static PointCloud Clock(int startRadius, int endRadius)
+        {
+            var bottom = Cone(endRadius, startRadius, 1);
+            var top = Cone(startRadius, endRadius, -1);
+
+            var shift = endRadius - startRadius;
+            return new PointCloud(bottom.Cloud.Concat(top.Cloud.Select(x => new Point(x.X, x.Y, x.Z + shift))).ToArray());
+        }
+
+        public static PointCloud RotatedClock(int startRadius, int endRadius)
+        {
+            var clock = Clock(startRadius, endRadius);
+            return new PointCloud(clock.Cloud.Select(x => new Point(x.Z, x.Y, x.X)).ToArray());
         }
     }
 }

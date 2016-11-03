@@ -75,11 +75,11 @@ namespace Legolize.Algo
             return _list.GetEnumerator();
         }
 
-        public void IncreasePriority(int iSlot)
+        public void IncreasePriority(int iSlot, int amount = 1)
         {
             Slot s = _list[iSlot];
             _list.RemoveAt(iSlot);
-            s.IncreasePriority();
+            s.IncreasePriority(amount);
 
             Insert(s);
         }
@@ -102,6 +102,8 @@ namespace Legolize.Algo
 
         public void Insert(Slot item)
         {
+            //remove if the slot is already in
+            Remove(item);
             int index = 0;
             foreach (var v in _list)
             {
@@ -114,7 +116,8 @@ namespace Legolize.Algo
 
         public bool Remove(Slot item)
         {
-            return _list.Remove(item);
+            //remove slot with all priorities
+            return _list.RemoveAll((Slot x) => x.Brick.Equals(item.Brick)) !=0;
         }
 
         public void RemoveAt(int index)

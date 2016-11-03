@@ -68,7 +68,7 @@ namespace Legolize.Algo
             if (LineInTouch(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y))
                 return xLineCollisionSize * LineCollisionSize(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);
 
-            // don't calculate Z
+            // well for  Z
             return 0;            
         }
     }
