@@ -19,10 +19,10 @@ namespace LegoModeler
     public struct Brick
     {
         public readonly BrickType BrickType;
-        public readonly int X, Y, Z;        
+        public readonly float X, Y, Z;        
         public readonly BrickRotation BrickRotation;
 
-        public Brick(BrickType brickType, int x, int y, int z, BrickRotation brickRotation)
+        public Brick(BrickType brickType, float x, float y, float z, BrickRotation brickRotation)
         {
             BrickType = brickType;
             X = x;

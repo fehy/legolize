@@ -94,7 +94,7 @@ void Loader::createDefaultConfig_Scene(std::ostream & stream)
 	stream
 		<< std::endl << ";;;Scene settings;;;" << std::endl << std::endl
 		<< "Scene_Period " << Scene::SCENE_PERIOD << "\t\t; Minimal delay between scene reload" << std::endl
-		<< ";Scene_File " << "C:\\Temp\\Scene.dat" << "\t\t; Scene file" << std::endl
+		<< "Scene_File " << "..\\..\\..\\..\\Scenes\\Scene.scene" << "\t\t; Scene file" << std::endl
 		;
 }
 
@@ -102,7 +102,11 @@ void Loader::createDefaultConfig_Models(std::ostream & stream)
 {
 	stream
 		<< std::endl << ";;;Model settings;;;" << std::endl << std::endl
-		<< ";Model " << "C:\\Temp\\sample.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\11.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\22.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\42.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\44.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\sample.model" << "\t\t; Models - to be used in order" << std::endl
 		;
 }
 

@@ -51,8 +51,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Algo\BrickTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\legolize\legolize.csproj">
+      <Project>{5caae485-7b39-4590-82f8-ffc83051dc8b}</Project>
+      <Name>legolize</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -29,6 +29,22 @@ namespace LegoModeler
             }
         } 
 
+        public static string ConvertBrickTypeToLdrColour(BrickType type)
+        {
+            switch (type)
+            {
+                case BrickType.B1x1:
+                    return "1";                    
+                case BrickType.B2x2:
+                    return "25";                    
+                case BrickType.B4x2:
+                    return "320";                    
+                default:
+                    throw new NotImplementedException("Brick type " + type + "is not supported");
+                    break;
+            }
+        } 
+
 
         // orientation only on one dimension (y) , -90 and 90 on y should give you same result in our case
         public static string ConvertToLdrOrientation(BrickRotation orientation)
@@ -64,10 +80,10 @@ namespace LegoModeler
                 var subPartIndication = "1";
                 //get color and position
 
-                var positionBuilder = new StringBuilder("15 ");
-                positionBuilder.Append(brick.Y * 20 + " ");
-                positionBuilder.Append(brick.Z * 24 + " ");                
-                positionBuilder.Append(brick.X * 20 );                
+                var positionBuilder = new StringBuilder(ConvertBrickTypeToLdrColour(brick.BrickType) + " ");
+                positionBuilder.Append(brick.X * 20 + " ");
+                positionBuilder.Append(-brick.Z * 24 + " ");                
+                positionBuilder.Append(brick.Y * 20 );                
 
                 //get orientation 
                 var orientationBuilder = new StringBuilder(); 

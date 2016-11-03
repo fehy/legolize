@@ -11,10 +11,21 @@ namespace Legolize.Algo
         public IModel Model { get; }
 
         private int _nextSlotPosition = 0;
+        private int _endSlotPosition;
 
         public void MoveSlotPosition() => _nextSlotPosition++;
 
-        public int NSlotsToSearch => Slots.Count - _nextSlotPosition;
+        public int NRemainingSlotsToSearch => _endSlotPosition - _nextSlotPosition;
+
+        public Tuple<int, int> SlotsToSearch
+        {
+            set
+            {
+                _nextSlotPosition = value.Item1;
+                _endSlotPosition = value.Item2;
+            }
+        }
+
 
         public void SlotToBrick()
         {
@@ -46,7 +57,7 @@ namespace Legolize.Algo
                     Slots.IncreasePriority(i);
                 }
 
-            _nextSlotPosition = 0;
+            SlotsToSearch = Tuple.Create(0, Slots.Count);                
         }
 
         private Brick[] AllNewBricksFor(Brick brick)
@@ -111,7 +122,7 @@ namespace Legolize.Algo
                     { y+=2; continue; }
                     if (!Model[x, y + 1, zt] || !Model[x + 1, y+1, zt])
                     { y++; continue; }
-                    if (!Model[x, y, zt] || !Model[x + 1, y+1, zt])
+                    if (!Model[x, y, zt] || !Model[x + 1, y, zt])
                         continue;
                     result.Add(new Brick(new Point(x, y, zt), new Point(x + 2, y + 4, zt+1)));
                 }
@@ -186,7 +197,9 @@ namespace Legolize.Algo
                 if (!Model.Can(brickCandidate))
                     continue;
 
-                var touches = Bricks.Select(x => brickCandidate.InTouch(x) ? 1 : 0).Sum();
+                var touches = Config.UseTouchSize
+                    ? Bricks.Select(x => brickCandidate.InTouchSize(x)).Sum()
+                    : Bricks.Select(x => brickCandidate.InTouch(x) ? 1 : 0).Sum();
                 Slots.Insert(new Slot(brickCandidate, touches + brickCandidate.Volume));
             }
 
