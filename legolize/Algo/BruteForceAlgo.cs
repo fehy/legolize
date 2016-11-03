@@ -66,9 +66,9 @@ namespace Legolize.Algo
                 if (!_masters.Peek().Model.HasAny())
                     return _bestSoFar;
 
-                Console.WriteLine($"Cycle: {i}");
-                Console.WriteLine(_masters.Peek().Model);
-                Console.ReadKey();
+                //Console.WriteLine($"Cycle: {i}");
+                //Console.WriteLine(_masters.Peek().Model);
+                //Console.ReadKey();
             }
             Console.WriteLine(_bestModel);
             return _bestSoFar;

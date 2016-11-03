@@ -11,23 +11,27 @@ namespace LegoModeler
 
         public OpenGLSceneWriter(string fileName)
         {
+            Directory.CreateDirectory(fileName);
             _fileName = fileName;
         }
 
         public void Write(Brick[] scene)
         {
+            if (File.Exists(_fileName))
+                return; // yield, not consumed yet
+
             var streamCandidate = OpenStream();
             if (streamCandidate == null)
-                return; // yield
+                return; // yield, takes too long to unlock
 
             using (var stream = streamCandidate)
             {
                 foreach (var brick in scene)
                 {
                     Write(stream, (int)brick.BrickType);
-                    Write(stream, brick.X);
-                    Write(stream, brick.Y);
-                    Write(stream, brick.Z);
+                    Write(stream, (float)brick.X);
+                    Write(stream, (float)brick.Y);
+                    Write(stream, (float)brick.Z);
 
                     switch (brick.BrickRotation)
                     {

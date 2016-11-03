@@ -37,18 +37,19 @@ bool BrickBuilder::BuildBrick(char const * fileName, Triplet const & dimension, 
 		return false;
 	}
 
-	float hi = 0.45f;
-	float lo = -0.45f;
+	float hi = 0.5f;
+	float lo = -0.5f;
+	float gap = 0.05f;
 
-	Triplet TLN(dimension.X * lo, dimension.Y * hi, dimension.Z * hi);
-	Triplet TRN(dimension.X * hi, dimension.Y * hi, dimension.Z * hi);
-	Triplet BRN(dimension.X * hi, dimension.Y * lo, dimension.Z * hi);
-	Triplet BLN(dimension.X * lo, dimension.Y * lo, dimension.Z * hi);
+	Triplet TLN(dimension.X * lo + gap, dimension.Y * hi - gap, dimension.Z * hi - gap);
+	Triplet TRN(dimension.X * hi - gap, dimension.Y * hi - gap, dimension.Z * hi - gap);
+	Triplet BRN(dimension.X * hi - gap, dimension.Y * lo + gap, dimension.Z * hi - gap);
+	Triplet BLN(dimension.X * lo + gap, dimension.Y * lo - gap, dimension.Z * hi - gap);
 
-	Triplet TRF(dimension.X * hi, dimension.Y * hi, dimension.Z * lo);
-	Triplet TLF(dimension.X * lo, dimension.Y * hi, dimension.Z * lo);
-	Triplet BLF(dimension.X * lo, dimension.Y * lo, dimension.Z * lo);
-	Triplet BRF(dimension.X * hi, dimension.Y * lo, dimension.Z * lo);
+	Triplet TRF(dimension.X * hi - gap, dimension.Y * hi - gap, dimension.Z * lo + gap);
+	Triplet TLF(dimension.X * lo + gap, dimension.Y * hi - gap, dimension.Z * lo + gap);
+	Triplet BLF(dimension.X * lo + gap, dimension.Y * lo + gap, dimension.Z * lo + gap);
+	Triplet BRF(dimension.X * hi - gap, dimension.Y * lo + gap, dimension.Z * lo + gap);
 
 	storeFace(file, TLN, TRN, BRN, BLN, color); // Near
 	storeFace(file, TRN, TRF, BRF, BRN, color); // Right
