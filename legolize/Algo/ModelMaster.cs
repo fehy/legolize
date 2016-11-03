@@ -77,9 +77,9 @@ namespace Legolize.Algo
             {
                 for (var y = brick.LeftLowNear.Y-1; y < brick.RightUpFar.Y; y++)
                 {
-                    if (Model[x, y+1, zt] || Model[x+1, y+1, zt])
+                    if (!Model[x, y+1, zt] || !Model[x+1, y+1, zt])
                       { y++; continue; }
-                    if (Model[x, y, zt] || Model[x + 1, y, zt])
+                    if (!Model[x, y, zt] || !Model[x + 1, y, zt])
                         continue;
                     result.Add(new Brick(new Point(x, y, zt), new Point(x+2, y+2, zt+1)));
                 }
@@ -90,9 +90,9 @@ namespace Legolize.Algo
             {
                 for (var y = brick.LeftLowNear.Y-1; y < brick.RightUpFar.Y; y++)
                 {
-                    if (Model[x, y+1, zb] || Model[x+1, y+1, zb])
+                    if (!Model[x, y+1, zb] || !Model[x+1, y+1, zb])
                     { y++; continue; }
-                    if (Model[x, y, zb] || Model[x + 1, y, zb])
+                    if (!Model[x, y, zb] || !Model[x + 1, y, zb])
                         continue;
                     result.Add(new Brick(new Point(x, y, zb), new Point(x + 2, y + 2, zb+1)));
                 }
@@ -105,13 +105,13 @@ namespace Legolize.Algo
             {
                 for (var y = brick.LeftLowNear.Y - 3; y < brick.RightUpFar.Y; y++)
                 {
-                    if (Model[x, y + 3, zt] || Model[x + 1, y + 3, zt])
+                    if (!Model[x, y + 3, zt] || !Model[x + 1, y + 3, zt])
                     { y += 3; continue; }
-                    if (Model[x, y + 2, zt] || Model[x + 1, y + 2, zt])
+                    if (!Model[x, y + 2, zt] || !Model[x + 1, y + 2, zt])
                     { y+=2; continue; }
-                    if (Model[x, y + 1, zt] || Model[x + 1, y+1, zt])
+                    if (!Model[x, y + 1, zt] || !Model[x + 1, y+1, zt])
                     { y++; continue; }
-                    if (Model[x, y, zt] || Model[x + 1, y+1, zt])
+                    if (!Model[x, y, zt] || !Model[x + 1, y+1, zt])
                         continue;
                     result.Add(new Brick(new Point(x, y, zt), new Point(x + 2, y + 4, zt+1)));
                 }
@@ -122,13 +122,13 @@ namespace Legolize.Algo
             {
                 for (var y = brick.LeftLowNear.Y - 3; y < brick.RightUpFar.Y; y++)
                 {
-                    if (Model[x, y + 3, zb] || Model[x + 1, y + 3, zb])
+                    if (!Model[x, y + 3, zb] || !Model[x + 1, y + 3, zb])
                     { y += 3; continue; }
-                    if (Model[x, y + 2, zb] || Model[x + 1, y + 2, zb])
+                    if (!Model[x, y + 2, zb] || !Model[x + 1, y + 2, zb])
                     { y += 2; continue; }
-                    if (Model[x, y + 1, zb] || Model[x + 1, y + 1, zb])
+                    if (!Model[x, y + 1, zb] || !Model[x + 1, y + 1, zb])
                     { y++; continue; }
-                    if (Model[x, y, zb] || Model[x + 1, y, zb])
+                    if (!Model[x, y, zb] || !Model[x + 1, y, zb])
                         continue;
                     result.Add(new Brick(new Point(x, y, zb), new Point(x + 2, y + 4, zb+1)));
                 }
@@ -139,13 +139,13 @@ namespace Legolize.Algo
             {
                 for (var x = brick.LeftLowNear.X - 3; x < brick.RightUpFar.X; x++)
                 {
-                    if (Model[x+3, y, zt] || Model[x + 3, y+1, zt])
+                    if (!Model[x+3, y, zt] || !Model[x + 3, y+1, zt])
                     { x += 3; continue; }
-                    if (Model[x+2, y, zt] || Model[x + 2, y+1, zt])
+                    if (!Model[x+2, y, zt] || !Model[x + 2, y+1, zt])
                     { x += 2; continue; }
-                    if (Model[x+1, y, zt] || Model[x + 1, y + 1, zt])
+                    if (!Model[x+1, y, zt] || Model[x + 1, y + 1, zt])
                     { x++; continue; }
-                    if (Model[x, y, zt] || Model[x, y+1, zt])
+                    if (!Model[x, y, zt] || !Model[x, y+1, zt])
                         continue;
                     result.Add(new Brick(new Point(x, y, zt), new Point(x + 4, y + 2, zt+1)));
                 }
@@ -158,13 +158,13 @@ namespace Legolize.Algo
             {
                 for (var x = brick.LeftLowNear.X - 3; x < brick.RightUpFar.X; x++)
                 {
-                    if (Model[x + 3, y, zb] || Model[x + 3, y + 1, zb])
+                    if (!Model[x + 3, y, zb] || !Model[x + 3, y + 1, zb])
                     { x += 3; continue; }
-                    if (Model[x + 2, y, zb] || Model[x + 2, y + 1, zb])
+                    if (!Model[x + 2, y, zb] || !Model[x + 2, y + 1, zb])
                     { x += 2; continue; }
-                    if (Model[x + 1, y, zb] || Model[x + 1, y + 1, zb])
+                    if (!Model[x + 1, y, zb] || !Model[x + 1, y + 1, zb])
                     { x++; continue; }
-                    if (Model[x, y, zb] || Model[x, y + 1, zb])
+                    if (!Model[x, y, zb] || !Model[x, y + 1, zb])
                         continue;
                     result.Add(new Brick(new Point(x, y, zb), new Point(x + 4, y + 2, zb+1)));
                 }
