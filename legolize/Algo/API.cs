@@ -14,6 +14,11 @@ namespace Legolize.Algo
 
     struct Brick
     {
+        public Brick(Point leftLowNear, Point rightUpFar)
+        {
+            LeftLowNear = leftLowNear;
+            RightUpFar = rightUpFar; 
+        }
         public Point LeftLowNear { get; }
         public Point RightUpFar { get; }
     }
