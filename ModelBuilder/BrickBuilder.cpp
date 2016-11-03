@@ -25,7 +25,7 @@ void BrickBuilder::storeFace(std::ostream & stream,
 	Triplet const & TL, Triplet const & TR, Triplet const & BR, Triplet const & BL, Triplet const & color)
 {
 	storeTriangle(stream, TL, TR, BR, color);
-	storeTriangle(stream, BR, BL, TL, color);
+	storeTriangle(stream, BR, BL, TL, Triplet(color.X * 0.9, color.Y * 0.9, color.Z * 0.9));
 }
 
 bool BrickBuilder::BuildBrick(char const * fileName, Triplet const & dimension, Triplet const & color)
@@ -39,7 +39,7 @@ bool BrickBuilder::BuildBrick(char const * fileName, Triplet const & dimension, 
 
 	float hi = 0.5f;
 	float lo = -0.5f;
-	float gap = 0.00f;
+	float gap = 0.05f;
 
 	Triplet TLN(dimension.X * lo + gap, dimension.Y * hi - gap, dimension.Z * hi - gap);
 	Triplet TRN(dimension.X * hi - gap, dimension.Y * hi - gap, dimension.Z * hi - gap);
@@ -56,6 +56,7 @@ bool BrickBuilder::BuildBrick(char const * fileName, Triplet const & dimension, 
 	storeFace(file, TLF, TLN, BLN, BLF, color); // Left
 	storeFace(file, TRF, TLF, BLF, BRF, color); // Far
 	storeFace(file, TLF, TRF, TRN, TLN, color); // Top
+	storeFace(file, BLN, BRN, BRF, BLF, color); // Bottom
 
 	auto success(file.good());
 	file.close();

@@ -28,7 +28,7 @@ namespace LegoModeler
             {
                 foreach (var brick in scene)
                 {
-                    Write(stream, (int)brick.BrickType);
+                    Write(stream, Model(brick));
                     Write(stream, brick.X);
                     Write(stream, brick.Y);
                     Write(stream, brick.Z);
