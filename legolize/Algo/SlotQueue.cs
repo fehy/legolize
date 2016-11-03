@@ -75,11 +75,11 @@ namespace Legolize.Algo
             return _list.GetEnumerator();
         }
 
-        public void IncreasePriority(int iSlot)
+        public void IncreasePriority(int iSlot, int amount = 1)
         {
             Slot s = _list[iSlot];
             _list.RemoveAt(iSlot);
-            s.IncreasePriority();
+            s.IncreasePriority(amount);
 
             Insert(s);
         }

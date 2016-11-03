@@ -83,13 +83,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BrickBuilder.cpp" />
     <ClCompile Include="ConfigHandler.cpp" />
     <ClCompile Include="HeightMapHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Triplet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BrickBuilder.h" />
     <ClInclude Include="ConfigHandler.h" />
     <ClInclude Include="HeightMapHandler.h" />
+    <ClInclude Include="Triplet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

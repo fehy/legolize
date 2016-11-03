@@ -69,6 +69,7 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 
 	auto success(stream.good());
 	stream.close();
+	_unlink(SceneFile.c_str());
 	return success;
 }
 

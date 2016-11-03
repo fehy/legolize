@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Legolize.Algo
 {
-    static class Config
+    class Config
     {
-        public static bool UseTouchSize = true;
+        public bool DebugStepping = false;
+        public bool UseTouchSize = true;
     }
 }
