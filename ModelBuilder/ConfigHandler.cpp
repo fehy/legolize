@@ -1,5 +1,6 @@
 #include "ConfigHandler.h"
 #include <sstream>
+#include <fstream>
 #include "HeightMapHandler.h"
 
 void ConfigHandler::createDefaultConfig_HeightMapHandler(std::ostream & stream)
@@ -90,7 +91,7 @@ void ConfigHandler::createDefaultConfig(std::ostream & stream)
 void ConfigHandler::ProcessConfig(char const * fileName)
 {
    // try to open config
-   std::fstream config(fileName,std::ios::in);
+   std::fstream config(fileName, std::ios::in);
 
    // Process config if present
    if (config)
