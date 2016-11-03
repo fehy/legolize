@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace LegoModeler
 {
-    class OpenGLSceneWriter
+    public class OpenGLSceneWriter
     {
         private readonly string _fileName;
         private readonly Random _rnd = new Random();
