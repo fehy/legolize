@@ -20,12 +20,12 @@ namespace Legolize.Algo
         public Brick(Point leftLowNear, Point rightUpFar)
         {
             LeftLowNear = leftLowNear;
-            RightUpFar = rightUpFar; 
+            RightUpFar = rightUpFar;
+            Volume = (RightUpFar.X - LeftLowNear.X) * (RightUpFar.Y - LeftLowNear.Y) * (RightUpFar.Z - LeftLowNear.Z);
         }
         public Point LeftLowNear { get; }
         public Point RightUpFar { get; }
-
-        public int Volume => (RightUpFar.X - LeftLowNear.X) * (RightUpFar.Y - LeftLowNear.Y) * (RightUpFar.Z - LeftLowNear.Z);
+        public int Volume { get; }        
     }
     
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Legolize;
 using System.Linq;
+using PointCloudGen.Teselation;
 
 namespace PointCloudGen
 {
@@ -52,6 +53,17 @@ namespace PointCloudGen
         {
             var clock = Clock(startRadius, endRadius);
             return new PointCloud(clock.Cloud.Select(x => new Point(x.Z, x.Y, x.X)).ToArray());
+        }
+
+        public static PointCloud FromObj(string fileName, float scale = 1)
+        {
+            var mesh = ObjReader.Read(fileName, 10);
+            mesh.Validate();
+
+            mesh.MakeNormals();
+
+            var r = mesh.Collide(new Vertex(-1, 0.2f, 0.4f), new Vertex(1, 0, 0).Normalize());
+            return Clock(10, 5);
         }
     }
 }

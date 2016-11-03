@@ -28,8 +28,7 @@ namespace Legolize.Algo
 
             master.SlotToBrick();
             master.CreateNewSlots();
-
-            // should we go forward or backward ? 
+            
             var volume = master.Bricks.Select(x => x.Volume).Sum();
             if (volume > _volumeSoFar)
             {

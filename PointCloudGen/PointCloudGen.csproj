@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Teselation\Mesh.cs" />
+    <Compile Include="Teselation\ObjReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\legolize\legolize.csproj">
