@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include <assert.h>
 #include <process.h>
+#include <sstream>
 #include "Model.h"
 
 HANDLE Scene::reloadThread(0);
@@ -10,10 +11,13 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 {
 	std::vector<GLfloat> vertex;
 	std::vector<GLfloat> colors;
+	std::vector<SceneItem> items;
 
 	while (reloadThreadRunning)
 	{
-		reloadScene(vertex, colors);
+		if (reloadItems(items))
+			reloadScene(items, vertex, colors);
+
 		Sleep(SCENE_PERIOD);
 	}
 	return 0;
@@ -22,25 +26,56 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 long Scene::SCENE_PERIOD(15);
 std::string Scene::SceneFile;
 
-void Scene::reloadScene(std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors)
+void Scene::reloadScene(std::vector<SceneItem> & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors)
 {
 	vertex.clear();
 	colors.clear();
 
 	unsigned trianglesEstimate(0);
-	for (auto model : Model::Models)
-		trianglesEstimate += model.Triangles.size();
+	for (auto item : items)
+		trianglesEstimate += Model::Models[item.Model].Triangles.size();
 
 	vertex.reserve(trianglesEstimate * 9); // X,Y,Z × A,B,C
 	colors.reserve(trianglesEstimate * 9); // R,G,B × A,B,C
 
-	for (auto model : Model::Models)
+	for (auto item : items)
 	{
-		model.PrintVertexPositions(vertex);
+		auto & model(Model::Models[item.Model]);
+
+		model.PrintVertexPositions(vertex, item.Offset, item.Rotation);
 		model.PrintVertexColors(colors);
 	}
 
 	OpenGL::SwapInputBuffers(vertex, colors);
+}
+
+bool Scene::reloadItems(std::vector<SceneItem> & items)
+{
+	items.clear();
+
+	std::stringstream stream;
+	GLfloat zerof(0);
+	GLfloat offf(1.5);
+	GLint zeroi(0);
+	GLint eithRoti(45);
+	
+	stream.write((char const *)&zeroi, sizeof(GLint));
+	stream.write((char const *)&zerof, sizeof(GLfloat));
+	stream.write((char const *)&zerof, sizeof(GLfloat));
+	stream.write((char const *)&zerof, sizeof(GLfloat));
+	stream.write((char const *)&eithRoti, sizeof(GLint));
+
+	stream.write((char const *)&zeroi, sizeof(GLint));
+	stream.write((char const *)&offf, sizeof(GLfloat));
+	stream.write((char const *)&offf, sizeof(GLfloat));
+	stream.write((char const *)&offf, sizeof(GLfloat));
+	stream.write((char const *)&zeroi, sizeof(GLint));
+
+	stream.seekg(0, std::ios::beg);
+	items.push_back(SceneItem(stream));
+	items.push_back(SceneItem(stream));
+
+	return true;
 }
 
 void Scene::StartHandler()

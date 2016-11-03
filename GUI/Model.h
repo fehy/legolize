@@ -1,8 +1,6 @@
 #ifndef _Model_h_
 #define _Model_h_
 
-struct Triangle;
-
 #include <vector>
 #include <istream>
 #include "CommonClassMacros.h"
@@ -20,7 +18,7 @@ struct Model
 
 	Model(std::istream & stream);
 
-	void PrintVertexPositions(std::vector<GLfloat> & target) const;
+	void PrintVertexPositions(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation) const;
 	void PrintVertexColors(std::vector<GLfloat> & target) const;
 	void PrintNormalsVertex(std::vector<GLfloat> & target) const;
 };

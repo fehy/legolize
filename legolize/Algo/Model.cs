@@ -12,7 +12,7 @@ namespace Legolize.Algo
 
         private ulong[] _vals;
 
-        private readonly int _xTy;
+        private readonly int _xTy;       
 
         public Model(int xSize, int ySize, int zSize)
         {
@@ -57,6 +57,9 @@ namespace Legolize.Algo
         {
             get 
             {
+                if (x < 0 || y < 0 || z < 0 || x >= _xSize || y >= _ySize || z >= _zSize)
+                    return false;
+
                 return this[z * _xTy + y * _xSize + x];
             }
 
@@ -71,7 +74,7 @@ namespace Legolize.Algo
             // todo faster algo
             for (var iz = brick.LeftLowNear.Z; iz < brick.RightUpFar.Z; iz++)
                 for (var iy = brick.LeftLowNear.Y; iy < brick.RightUpFar.Y; iy++)
-                    for (var ix = brick.LeftLowNear.X; iz < brick.RightUpFar.X; ix++)
+                    for (var ix = brick.LeftLowNear.X; ix < brick.RightUpFar.X; ix++)
                         if (!this[ix, iy, iz])
                             return false;
 
@@ -83,7 +86,7 @@ namespace Legolize.Algo
             // todo faster algo
             for (var iz = brick.LeftLowNear.Z; iz < brick.RightUpFar.Z; iz++)
                 for (var iy = brick.LeftLowNear.Y; iy < brick.RightUpFar.Y; iy++)
-                    for (var ix = brick.LeftLowNear.X; iz < brick.RightUpFar.X; ix++)
+                    for (var ix = brick.LeftLowNear.X; ix < brick.RightUpFar.X; ix++)
                         this[ix, iy, iz] = value;
         }
 
@@ -105,6 +108,15 @@ namespace Legolize.Algo
             }
 
             return builder.ToString();
+        }
+
+        public bool HasAny()
+        {
+            for (var i = 0; i < _vals.Length; i++)
+                if (_vals[i] > 0)
+                    return true;
+
+            return false;
         }
     }
 }
