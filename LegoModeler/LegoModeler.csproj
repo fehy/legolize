@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brick.cs" />
+    <Compile Include="OpenGLSceneWriter.cs" />
     <Compile Include="BrickConvertor.cs" />
     <Compile Include="BrickGenerator.cs" />
     <Compile Include="IGenerator.cs" />

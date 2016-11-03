@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Legolize;
-using PointCloudGen;
+﻿using Legolize;
 using LegoModeler;
 
 namespace Legolizer
@@ -21,10 +15,8 @@ namespace Legolizer
             bricks[2] = new LegoModeler.Brick(BrickType.B4x2, 5, 2, 0, BrickRotation.R90);
             bricks[3] = new LegoModeler.Brick(BrickType.B4x2, 8, 2, 0, BrickRotation.R0);*/
 
-            new GenerateStaticBricks().OutputToLdr(bricks);
-
+            //new GenerateStaticBricks().OutputToLdr(bricks);
+            new OpenGLSceneWriter("..\\..\\..\\Scenes\\Scene.scene").Write(bricks);
         }
-
-     
     }
 }
