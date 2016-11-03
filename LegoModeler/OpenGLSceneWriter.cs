@@ -11,7 +11,7 @@ namespace LegoModeler
 
         public OpenGLSceneWriter(string fileName)
         {
-            Directory.CreateDirectory(fileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
             _fileName = fileName;
         }
 
@@ -29,13 +29,12 @@ namespace LegoModeler
                 foreach (var brick in scene)
                 {
                     Write(stream, (int)brick.BrickType);
-                    Write(stream, (float)brick.X);
-                    Write(stream, (float)brick.Y);
-                    Write(stream, (float)brick.Z);
+                    Write(stream, brick.X);
+                    Write(stream, brick.Y);
+                    Write(stream, brick.Z);
 
                     switch (brick.BrickRotation)
                     {
-                        default:
                         case BrickRotation.R0:
                             Write(stream, 0);
                             break;
@@ -51,6 +50,9 @@ namespace LegoModeler
                         case BrickRotation.R270:
                             Write(stream, 270);
                             break;
+
+                        default:
+                            throw new ArgumentException(brick.BrickRotation.ToString());
                     }
                 }
             }
@@ -82,6 +84,27 @@ namespace LegoModeler
             }
 
             return null;
+        }
+
+        private static int Model(Brick brick)
+        {
+            const int TotalColors = 4; // RGBY
+            var color = ((int)(brick.X + brick.Y + brick.Z)) % TotalColors;
+
+            switch (brick.BrickType)
+            {
+                case BrickType.B1x1:
+                    return TotalColors * 0 + color;
+
+                case BrickType.B2x2:
+                    return TotalColors * 1 + color;
+
+                case BrickType.B4x2:
+                    return TotalColors * 2 + color;
+
+                default:
+                    throw new ArgumentException(brick.BrickType.ToString());
+            }
         }
 
         private static void Write(Stream stream, int val)
