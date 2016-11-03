@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Legolize.Algo
 {
     class ModelMaster : IModelMaster
     {
-        public SlotPriorityQueue Slots { get; }
+        public ISlotPriorityQueue Slots { get; }
         public Stack<Brick> Bricks { get; }
         public IModel Model { get; }
-        
-        public void SlotToBrick(int iSlotPosition)
+
+        private int _nextSlotPosition = 0;
+
+        public void MoveSlotPosition() => _nextSlotPosition++;
+
+        public int NSlotsToSearch => Slots.Count - _nextSlotPosition;
+
+        public void SlotToBrick()
         {
             // remove slot from SlotPriorityQueue
-            var slot = Slots[iSlotPosition];
-            Slots.RemoveAt(iSlotPosition);
+            var slot = Slots[_nextSlotPosition];
+            Slots.RemoveAt(_nextSlotPosition);
 
             var brick = slot.Brick;
             // add brick to brick queue
@@ -38,6 +45,8 @@ namespace Legolize.Algo
                 {
                     Slots.IncreasePriority(i);
                 }
+
+            _nextSlotPosition = 0;
         }
 
         private static Brick[] AllNewBricksFor(Brick brick)
@@ -51,20 +60,40 @@ namespace Legolize.Algo
 
         // Take latest added Brick
         // Add new slots introduces by Brick
-        public void CreateNewSlots()
+        public bool CreateNewSlots()
         {
-            var brick = Bricks.Peek();
+            var brick = Bricks.Pop();
             var potentialBricks = AllNewBricksFor(brick);
 
+            var before = Slots.Count;
+            foreach(var brickCandidate in potentialBricks)
+            {
+                if (!Model.Can(brickCandidate))
+                    continue;
+
+                var touches = Bricks.Select(x => brickCandidate.InTouch(x) ? 1 : 0).Sum();
+                Slots.Insert(new Slot(brickCandidate, touches));
+            }
+
+            return Slots.Count > before;
+        }
+
+        public ModelMaster(Model model)
+        {
+            Model = model;
+            Bricks = new Stack<Brick>();
+            Slots = new SlotPriorityQueueList();
         }
 
         private ModelMaster(ModelMaster from, bool deepClone)
         {
             Slots = from.Slots.DeepClone();
+            _nextSlotPosition = from._nextSlotPosition;
             if (!deepClone)
             {
                 Bricks = from.Bricks;
                 Model = from.Model;
+                
             }
             else
             {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Legolize.Algo;
 
 namespace Legolize
@@ -33,6 +29,13 @@ namespace Legolize
                 model[point.X - min.X, point.Y - min.Y, point.Z - min.Z] = true;
 
             Console.Write(model);
+
+            var master = new ModelMaster(model);
+            master.Bricks.Push(new Brick());
+            master.CreateNewSlots();
+
+            var algo = new BruteForceAlgo(master);
+            algo.Go(10);
         }
     }
 }
