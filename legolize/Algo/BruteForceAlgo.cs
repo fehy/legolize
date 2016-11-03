@@ -10,6 +10,7 @@ namespace Legolize.Algo
         private object _lockBest = new object();
         private Brick[] _bestSoFar;
         private int _volumeSoFar = 0;
+        private IModel _bestModel;
 
         public BruteForceAlgo(IModelMaster master)
         {
@@ -35,6 +36,7 @@ namespace Legolize.Algo
                         _volumeSoFar = volume;
                         _bestSoFar = new Brick[master.Bricks.Count];
                         master.Bricks.CopyTo(_bestSoFar, 0);
+                        _bestModel = master.Model.DeepClone();
                     }
                 }
                 
@@ -64,11 +66,11 @@ namespace Legolize.Algo
                 if (!_masters.Peek().Model.HasAny())
                     return _bestSoFar;
 
-                Console.WriteLine($"Cycle: {i}");
-                Console.WriteLine(_masters.Peek().Model);
-                Console.ReadKey();
+                //Console.WriteLine($"Cycle: {i}");
+                //Console.WriteLine(_masters.Peek().Model);
+               // Console.ReadKey();
             }
-
+            Console.WriteLine(_bestModel);
             return _bestSoFar;
         }
 

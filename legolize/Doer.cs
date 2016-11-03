@@ -1,5 +1,6 @@
 ﻿using System;
 using Legolize.Algo;
+using System.Collections.Generic;
 
 namespace Legolize
 {
@@ -7,24 +8,26 @@ namespace Legolize
     {
         private static LegoModeler.Brick[] Convert(Brick[] bricks)
         {
-            var ret = new LegoModeler.Brick[bricks.Length];
-            for(var i = 0; i < ret.Length; i++)
+            var ret = new List<LegoModeler.Brick>(bricks.Length -1);
+            for(var i = 0; i < bricks.Length; i++)
             {
                 var vol = bricks[i].Volume;
 
                 if (vol == 1)
-                    ret[i] = new LegoModeler.Brick(LegoModeler.BrickType.B1x1, bricks[i].LeftLowNear.X, bricks[i].LeftLowNear.Y, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0);
+                    ret.Add(new LegoModeler.Brick(LegoModeler.BrickType.B1x1, bricks[i].LeftLowNear.X, bricks[i].LeftLowNear.Y, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0));
                 else if (vol == 4)
-                    ret[i] = new LegoModeler.Brick(LegoModeler.BrickType.B2x2, bricks[i].LeftLowNear.X, bricks[i].LeftLowNear.Y, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0);
+                    ret.Add(new LegoModeler.Brick(LegoModeler.BrickType.B2x2, bricks[i].LeftLowNear.X + 1, bricks[i].LeftLowNear.Y + 1, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0));
                 else if (vol == 8)
-                    ret[i] = new LegoModeler.Brick(LegoModeler.BrickType.B4x2, bricks[i].LeftLowNear.X, bricks[i].LeftLowNear.Y, bricks[i].LeftLowNear.Z,
-                        (bricks[i].RightUpFar.X - bricks[i].LeftLowNear.X) == 4 ? LegoModeler.BrickRotation.R0 : LegoModeler.BrickRotation.R90);
-                else
-                    throw new NotSupportedException(vol.ToString());
-
+                {
+                    var rot = (bricks[i].RightUpFar.X - bricks[i].LeftLowNear.X) == 4 ? LegoModeler.BrickRotation.R0 : LegoModeler.BrickRotation.R90;
+                    ret.Add(new LegoModeler.Brick(LegoModeler.BrickType.B4x2, 
+                        bricks[i].LeftLowNear.X + (rot == LegoModeler.BrickRotation.R0 ? 2 : 1), 
+                        bricks[i].LeftLowNear.Y + (rot == LegoModeler.BrickRotation.R0 ? 1 : 2), bricks[i].LeftLowNear.Z,
+                        rot));
+                }
             }
 
-            return ret;
+            return ret.ToArray();
         }
 
         public static LegoModeler.Brick[] Do(PointCloud cloud)
@@ -57,7 +60,7 @@ namespace Legolize
             master.CreateNewSlots();
 
             var algo = new BruteForceAlgo(master);
-            return Convert(algo.Go(1000000));
+            return Convert(algo.Go(10000000));
         }
     }
 }
