@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Legolize.Algo
 {
-    class SlotPriorityQueueList : SlotPriorityQueue
+    class SlotPriorityQueueList : ISlotPriorityQueue
     {
         private List<Slot> _list;
 
@@ -60,9 +60,9 @@ namespace Legolize.Algo
             _list.CopyTo(array, arrayIndex);
         }
 
-        public SlotPriorityQueue DeepClone()
+        public ISlotPriorityQueue DeepClone()
         {
-            SlotPriorityQueue newSPQ = new SlotPriorityQueueList();
+            ISlotPriorityQueue newSPQ = new SlotPriorityQueueList();
             foreach (var slot in _list)
             {
                 newSPQ.Add(slot);
