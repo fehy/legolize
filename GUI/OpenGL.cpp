@@ -14,7 +14,7 @@ HINSTANCE OpenGL::hInstance;  //< Holds The Instance Of The Application
 
 bool OpenGL::keys[256];			      //< Array Used For The Keyboard Routine
 bool OpenGL::active(true);		      //< Window Active Flag Set To TRUE By Default
-bool OpenGL::fullscreen(true);	   //< Fullscreen Flag Set To Fullscreen Mode By Default
+bool OpenGL::fullscreen(false);	   //< Fullscreen Flag Set To Non-Fullscreen Mode By Default
 
 GLfloat OpenGL::xRot(0); //< X rotation
 GLfloat OpenGL::yRot(0); //< Y rotation
@@ -35,7 +35,7 @@ GLvoid OpenGL::resizeGLScene(GLsizei width, GLsizei height)
 	if (height == 0) // Prevent A Divide By Zero By
 		height = 1;   // Making Height Equal One
 
-	zPos = -3.0; // Z position offset (so we can see the terrain)
+	zPos = -30.0; // Z position offset (so we can see the terrain)
 
 	glViewport(0, 0, width, height); // Reset The Current Viewport
 
@@ -43,7 +43,7 @@ GLvoid OpenGL::resizeGLScene(GLsizei width, GLsizei height)
 	glLoadIdentity();             // Reset The Projection Matrix
 
 	// Calculate The Aspect Ratio Of The Window
-	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 500.0f);
 
 	glMatrixMode(GL_MODELVIEW);   // Select The Modelview Matrix
 	glLoadIdentity();             // Reset The Modelview Matrix
@@ -459,14 +459,6 @@ void OpenGL::controllBox()
 		else if (keys[VK_END])
 			zRot -= 1.0f;
 	}
-
-	// Config reload
-	if (keys[VK_RETURN])
-	{
-		keys[VK_RETURN] = false; // Prevent multiple operations
-		Loader::ProcessConfig("NavMeshes.conf"); // on change also change constant on first load (main.cpp)
-		std::cout << "Config Reloaded" << std::endl;
-	}
 }
 
 void OpenGL::SwapInputBuffers(std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors)
@@ -478,9 +470,6 @@ void OpenGL::SwapInputBuffers(std::vector<GLfloat> & vertex, std::vector<GLfloat
 
 void OpenGL::OpenGLMain()
 {
-	// Fullscreen or not
-	fullscreen = (MessageBox(NULL, L"Would You Like To Run In Fullscreen Mode?", L"Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDYES);
-
 	// Create Our OpenGL Window
 	if (!createGLWindow(L"LegoDisassemble", 800, 600, 32, fullscreen))
 		return;

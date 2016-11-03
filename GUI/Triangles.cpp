@@ -9,6 +9,10 @@ GLfloat readFloat(std::istream & stream)
 	return value;
 }
 
+PntVector::PntVector(GLfloat x, GLfloat y, GLfloat z)
+	: X(x), Y(y), Z(z)
+{}
+
 PntVector::PntVector(std::istream & stream)
 	: X(readFloat(stream)), Y(readFloat(stream)), Z(readFloat(stream))
 {}

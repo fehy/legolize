@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include <assert.h>
 #include <process.h>
+#include <iostream>
 #include <sstream>
 #include <fstream>
 #include "Model.h"
@@ -17,7 +18,11 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 	while (reloadThreadRunning)
 	{
 		if (reloadItems(items))
+		{
 			reloadScene(items, vertex, colors);
+			centerScene(vertex);
+			OpenGL::SwapInputBuffers(vertex, colors);
+		}
 
 		Sleep(SCENE_PERIOD);
 	}
@@ -26,29 +31,6 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 
 long Scene::SCENE_PERIOD(15);
 std::string Scene::SceneFile;
-
-void Scene::reloadScene(std::vector<SceneItem> & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors)
-{
-	vertex.clear();
-	colors.clear();
-
-	unsigned trianglesEstimate(0);
-	for (auto item : items)
-		trianglesEstimate += Model::Models[item.Model].Triangles.size();
-
-	vertex.reserve(trianglesEstimate * 9); // X,Y,Z × A,B,C
-	colors.reserve(trianglesEstimate * 9); // R,G,B × A,B,C
-
-	for (auto item : items)
-	{
-		auto & model(Model::Models[item.Model]);
-
-		model.PrintVertexPositions(vertex, item.Offset, item.Rotation);
-		model.PrintVertexColors(colors);
-	}
-
-	OpenGL::SwapInputBuffers(vertex, colors);
-}
 
 bool Scene::reloadItems(std::vector<SceneItem> & items)
 {
@@ -68,9 +50,69 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 		items.push_back(SceneItem(stream));
 
 	auto success(stream.good());
+	
+	if (!success)
+		std::cout << "LoadScene failed in the middle" << std::endl;
+
 	stream.close();
 	_unlink(SceneFile.c_str());
 	return success;
+}
+
+void Scene::reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors)
+{
+	vertex.clear();
+	colors.clear();
+	
+	unsigned trianglesEstimate(0);
+	for (auto item : items)
+		trianglesEstimate += Model::Models[item.Model].Triangles.size();
+
+	vertex.reserve(trianglesEstimate * 9); // X,Y,Z × A,B,C
+	colors.reserve(trianglesEstimate * 9); // R,G,B × A,B,C
+
+	for (auto item : items)
+	{
+		auto & model(Model::Models[item.Model]);
+
+		model.PrintVertexPositions(vertex, item.Offset, item.Rotation);
+		model.PrintVertexColors(colors);
+	}
+}
+
+void Scene::centerScene(std::vector<GLfloat> & vertex)
+{
+	assert(vertex.size() % 3 == 0);
+	GLfloat extremeX = 0;
+	GLfloat extremeY = 0;
+	GLfloat extremeZ = 0;
+
+	auto cpnter(vertex.cbegin());
+	while (cpnter != vertex.cend())
+	{
+		if (*cpnter > extremeX)
+			extremeX = *cpnter;
+
+		if (*++cpnter > extremeY)
+			extremeY = *cpnter;
+
+		if (*++cpnter > extremeZ)
+			extremeZ = *cpnter;
+		++cpnter;
+	}
+
+	extremeX *= 0.5f;
+	extremeY *= 0.5f;
+	extremeZ *= 0.5f;
+
+	auto pnter(vertex.begin());
+	while (pnter != vertex.end())
+	{
+		*pnter -= extremeX;
+		*++pnter -= extremeY;
+		*++pnter -= extremeZ;
+		++pnter;
+	}
 }
 
 void Scene::StartHandler()
