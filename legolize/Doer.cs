@@ -14,6 +14,7 @@ namespace Legolize
                 var vol = bricks[i].Volume;
 
                 if (vol == 1)
+                    // TODO: hacking to workaround model problem
                     ret.Add(new LegoModeler.Brick(LegoModeler.BrickType.B1x1, bricks[i].LeftLowNear.X + 0.5f, bricks[i].LeftLowNear.Y+0.5f, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0));
                 else if (vol == 4)
                     ret.Add(new LegoModeler.Brick(LegoModeler.BrickType.B2x2, bricks[i].LeftLowNear.X + 1, bricks[i].LeftLowNear.Y + 1, bricks[i].LeftLowNear.Z, LegoModeler.BrickRotation.R0));
@@ -34,7 +35,7 @@ namespace Legolize
         {
             Console.Write($"PointCloud with {cloud.Cloud.Length} points");
 
-            // 1.) create model 
+            // 1.) create bottom model 
             var min = new MutablePoint(int.MaxValue, int.MaxValue, int.MaxValue);
             var max = new MutablePoint(int.MinValue, int.MinValue, int.MinValue);
 
@@ -58,6 +59,7 @@ namespace Legolize
             var master = new ModelMaster(model);
             master.Bricks.Push(new Brick(new Point(0,0,-1), new Point(max.X - min.X + 1, max.Y - min.Y + 1,0)));
             master.CreateNewSlots();
+            master.SlotsToSearch = Tuple.Create(0, master.Slots.Count);
 
             var algo = new BruteForceAlgo(master);
             return Convert(algo.Go(10000000));

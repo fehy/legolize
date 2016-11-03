@@ -21,6 +21,15 @@ namespace Legolize.Algo
             return (aMin == bMax) || (bMin == aMax);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int LineCollisionSize(int aMin, int aMax, int bMin, int bMax)
+        {
+            var from = Math.Max(aMin, bMin);
+            var to = Math.Min(aMax, bMax);
+
+            return (to > from) ? to - from : 0;
+        }
+
         public static bool InCollision(this Brick a, Brick b)
         {
             return LineCollision(a.LeftLowNear.X, a.RightUpFar.X, b.LeftLowNear.X, b.RightUpFar.X) &&
@@ -42,6 +51,25 @@ namespace Legolize.Algo
 
             return LineCollision(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y) &&
                 LineInTouch(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);            
+        }
+
+        public static int InTouchSize(this Brick a, Brick b)
+        {
+            if (LineInTouch(a.LeftLowNear.X, a.RightUpFar.X, b.LeftLowNear.X, b.RightUpFar.X))
+                return LineCollisionSize(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y) * 
+                LineCollisionSize(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);
+
+            var xLineCollisionSize = LineCollisionSize(a.LeftLowNear.X, a.RightUpFar.X, b.LeftLowNear.X, b.RightUpFar.X);
+            if (xLineCollisionSize == 0)
+                return 0;
+
+            if (LineInTouch(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y))
+                return xLineCollisionSize * LineCollisionSize(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z);
+
+
+            return LineInTouch(a.LeftLowNear.Z, a.RightUpFar.Z, b.LeftLowNear.Z, b.RightUpFar.Z) ?
+                LineCollisionSize(a.LeftLowNear.Y, a.RightUpFar.Y, b.LeftLowNear.Y, b.RightUpFar.Y) * xLineCollisionSize
+                : 0;
         }
     }
 }

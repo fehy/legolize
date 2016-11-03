@@ -56,7 +56,7 @@ namespace Legolize.Algo
 
             for (var i = 0; i < cycles; i++)
             {
-                while (_masters.Count > 0 && _masters.Peek().NSlotsToSearch == 0)
+                while (_masters.Count > 0 && _masters.Peek().NRemainingSlotsToSearch == 0)
                     StepBack();
 
                 if(_masters.Count == 0)
@@ -66,9 +66,9 @@ namespace Legolize.Algo
                 if (!_masters.Peek().Model.HasAny())
                     return _bestSoFar;
 
-                //Console.WriteLine($"Cycle: {i}");
-                //Console.WriteLine(_masters.Peek().Model);
-               // Console.ReadKey();
+                Console.WriteLine($"Cycle: {i}");
+                Console.WriteLine(_masters.Peek().Model);
+                Console.ReadKey();
             }
             Console.WriteLine(_bestModel);
             return _bestSoFar;

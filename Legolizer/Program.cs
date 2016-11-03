@@ -14,6 +14,7 @@ namespace Legolizer
         static void Main(string[] args)
         {
             var bricks = Doer.Do(PointCloudGen.Generator.Cube(10, 8, 2));
+            //var bricks = Doer.Do(PointCloudGen.Generator.Cone(4, 15, 1));
             /*var bricks = new LegoModeler.Brick[4];
             bricks[0] = new LegoModeler.Brick(BrickType.B4x2, 2, 1, 0, BrickRotation.R0);
             bricks[1] = new LegoModeler.Brick(BrickType.B4x2, 2, 3, 0, BrickRotation.R0);
@@ -21,8 +22,6 @@ namespace Legolizer
             bricks[3] = new LegoModeler.Brick(BrickType.B4x2, 8, 2, 0, BrickRotation.R0);*/
 
             new GenerateStaticBricks().OutputToLdr(bricks);
-
-
 
         }
 
