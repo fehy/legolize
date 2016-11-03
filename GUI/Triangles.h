@@ -15,9 +15,11 @@ struct PntVector
 	DEFAULT_COPYMOVE(PntVector);
 	DEFAULT_DESTROY(PntVector);
 
-	GLfloat const X;
-	GLfloat const Y;
-	GLfloat const Z;
+	GLfloat X;
+	GLfloat Y;
+	GLfloat Z;
+
+	PntVector(GLfloat x, GLfloat y, GLfloat z);
 
 	// [X],[Y],[Z]
 	PntVector(std::istream & stream);
