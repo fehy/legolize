@@ -60,7 +60,7 @@ namespace Legolize.Algo
 
             for (var i = 0; i < cycles; i++)
             {
-                if ((i & 0xfff) == 0)
+                if ((i & 0xdff) == 0)
                     Console.WriteLine(i);
 
                 while (_masters.Count > 0 && _masters.Peek().NRemainingSlotsToSearch == 0)

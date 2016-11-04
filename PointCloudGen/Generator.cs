@@ -84,7 +84,7 @@ namespace PointCloudGen
         }
 
 
-        public static PointCloud FromObj(string fileName, float scale = 1)
+        public static PointCloud FromObj(string fileName, float scale = 1, int cutFromBottom = 0)
         {
             var mesh = ObjReader.Read(fileName, scale);
             mesh.Validate();
@@ -100,18 +100,26 @@ namespace PointCloudGen
             {
                 Console.WriteLine(iz);
                 for (var iy = (int)min.Y; iy < max.Y; iy++)
-                {
-                    Console.WriteLine(iy);
+                {                    
                     var r = mesh.Collide(new Vertex(0, iy, iz), dir);
 
                     for (var i = 1; i < r.Length; i += 2)
                     {
                         for (var ix = (int)r[i - 1]; ix < r[i]; ix++)
-                            cloud.Add(new Point(ix, iy, iz));
+                            cloud.Add(new Point(ix, iz, iy));
                     }
 
                 }
             });
+
+
+            if(cutFromBottom > 0)
+            {
+                var zMin = cloud.Min(x => x.Z);
+                zMin += cutFromBottom;
+
+                return new PointCloud(cloud.Where(x => x.Z >= zMin).ToArray());
+            }
 
             return new PointCloud(cloud.ToArray());
         }
