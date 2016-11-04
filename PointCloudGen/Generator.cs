@@ -2,6 +2,7 @@
 using Legolize;
 using System.Linq;
 using PointCloudGen.Teselation;
+using System.IO;
 
 namespace PointCloudGen
 {
@@ -54,6 +55,36 @@ namespace PointCloudGen
             var clock = Clock(startRadius, endRadius);
             return new PointCloud(clock.Cloud.Select(x => new Point(x.Z, x.Y, x.X)).ToArray());
         }
+
+
+        public static PointCloud GenerateABSA(int height, int width)
+        {
+            var cloud = new List<Point>();
+            int w, h;
+
+            System.Drawing.Bitmap image = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(@"..\..\..\PointCloudGen\absaImage.bmp", false);
+            w = image.Width;
+            h = image.Height;
+
+            for (int x = 0; x < w; x++)
+            {
+                for (int z = 0; z < h; z++)
+                {
+                    var p = image.GetPixel(x, z);
+                    if (p != image.GetPixel(0, 0))
+                    {
+                        for(int y=0; y<10; y++)
+                        cloud.Add(new Point(x, y, z));
+                    }
+                }
+            }
+
+            int i = 0;
+            return new PointCloud(cloud.ToArray());
+        }
+
+
+
 
         public static PointCloud FromObj(string fileName, float scale = 1)
         {

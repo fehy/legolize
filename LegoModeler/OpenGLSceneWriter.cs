@@ -20,11 +20,8 @@ namespace LegoModeler
             if (File.Exists(_fileName))
                 return; // yield, not consumed yet
 
-            var streamCandidate = OpenStream();
-            if (streamCandidate == null)
-                return; // yield, takes too long to unlock
-
-            using (var stream = streamCandidate)
+            // No multicheck, as file does not exist, so we are creating it
+            using (var stream = new FileStream(_fileName, FileMode.Create, FileAccess.Write))
             {
                 foreach (var brick in scene)
                 {
@@ -57,35 +54,7 @@ namespace LegoModeler
                 }
             }
         }
-
-        private Stream OpenStream(int timeout = 1000)
-        {
-            var timeAvailable = timeout;
-            var minSleep = timeout / 100 + 1;
-            var maxSleep = timeout / 50 + 2;
-
-            while(timeAvailable > 0)
-            {
-                try
-                {
-                    return new FileStream(_fileName, FileMode.Create, FileAccess.Write);
-                }
-                catch (IOException ex)
-                {
-                    if (ex.GetType() != typeof(IOException))
-                        throw;
-
-                    var sleepTime = Math.Min(_rnd.Next(minSleep, maxSleep), timeAvailable);
-                    Thread.Sleep(sleepTime);
-                    timeAvailable -= sleepTime;
-
-                    continue;
-                }
-            }
-
-            return null;
-        }
-
+        
         private static int Model(Brick brick)
         {
             const int TotalColors = 4; // RGBY
