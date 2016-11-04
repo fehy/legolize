@@ -63,7 +63,7 @@ namespace Legolize
             master.SlotsToSearch = Tuple.Create(0, master.Slots.Count);
 
             var algo = new BruteForceAlgo(master);
-            return Convert(algo.Go(1000000));
+            return Convert(algo.Go(10000));
         }
     }
 }
