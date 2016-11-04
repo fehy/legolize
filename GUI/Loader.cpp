@@ -112,18 +112,9 @@ void Loader::createDefaultConfig_Models(std::ostream & stream)
 {
 	stream
 		<< std::endl << ";;;Model settings;;;" << std::endl << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\11r.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\11g.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\11b.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\11y.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\22r.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\22g.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\22b.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\22y.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\42r.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\42g.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\42b.model" << "\t\t; Models - to be used in order" << std::endl
-		<< "Model " << "..\\..\\..\\..\\Models\\42y.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\11.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\22.model" << "\t\t; Models - to be used in order" << std::endl
+		<< "Model " << "..\\..\\..\\..\\Models\\42.model" << "\t\t; Models - to be used in order" << std::endl
 		;
 }
 

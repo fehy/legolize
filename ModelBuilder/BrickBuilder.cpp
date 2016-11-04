@@ -6,9 +6,6 @@ void BrickBuilder::storeTriangle(std::ostream & stream,
 	Triplet const & a, Triplet const & b, Triplet const & c,
 	Triplet const & color) 
 {
-	// prepare normal
-	Triplet const normal(Triplet::ComputeNormal(a, b, c));
-
 	a.Serialize(stream);
 	color.Serialize(stream);
 
@@ -17,8 +14,6 @@ void BrickBuilder::storeTriangle(std::ostream & stream,
 
 	c.Serialize(stream);
 	color.Serialize(stream);
-
-	normal.Serialize(stream);
 }
 
 void BrickBuilder::storeFace(std::ostream & stream,

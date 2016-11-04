@@ -44,9 +44,6 @@ bool HeightMapHandler::storeTriangle(std::ostream & stream, Triplet const & a, T
 	++ITER;
 	ITER %= 3;
 
-	// prepare normal
-	Triplet const normal(Triplet::ComputeNormal(a, b, c));
-
 	a.Serialize(stream);
 	COLORS[ITER].Serialize(stream);
 
@@ -55,8 +52,6 @@ bool HeightMapHandler::storeTriangle(std::ostream & stream, Triplet const & a, T
 
 	c.Serialize(stream);
 	COLORS[ITER].Serialize(stream);
-
-	normal.Serialize(stream);
 
 	// return success state
 	return stream.good();

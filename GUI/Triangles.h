@@ -48,12 +48,10 @@ struct Triangle
 	Vertice const A;
 	Vertice const B;
 	Vertice const C;
-	PntVector const Normal;
 
 	// A.X, A.Y, A.Z, A.R, A.G, A.B
 	// B.X, B.Y, B.Z, B.R, B.G, B.B
 	// C.X, C.Y, C.Z, C.R, C.G, C.B
-	// Norm.X, Norm.Y, Norm.Z
 	Triangle(std::istream & stream);
 
 	void PrintVertexPosition(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation);
