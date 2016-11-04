@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include "Model.h"
+#include "WavefrontMaster.h"
 
 HANDLE Scene::reloadThread(0);
 volatile bool Scene::reloadThreadRunning(false);
@@ -13,14 +14,17 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 {
 	std::vector<GLfloat> vertex;
 	std::vector<GLfloat> colors;
+	std::vector<GLfloat> normals;
 	std::vector<SceneItem> items;
 
 	while (reloadThreadRunning)
 	{
 		if (reloadItems(items))
 		{
-			reloadScene(items, vertex, colors);
+			reloadScene(items, vertex, colors, normals);
 			centerScene(vertex);
+			WavefrontMaster::DropFile(vertex, colors, normals);
+
 			OpenGL::SwapInputBuffers(vertex, colors);
 		}
 
@@ -30,6 +34,7 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 }
 
 long Scene::SCENE_PERIOD(15);
+bool DUMP_WAVEFRONT_SCENE(false);
 std::string Scene::SceneFile;
 
 bool Scene::reloadItems(std::vector<SceneItem> & items)
@@ -59,10 +64,12 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 	return success;
 }
 
-void Scene::reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors)
+void Scene::reloadScene(std::vector<SceneItem> const & items, 
+	std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors, std::vector<GLfloat> & normals)
 {
 	vertex.clear();
 	colors.clear();
+	normals.clear();
 	
 	unsigned trianglesEstimate(0);
 	for (auto item : items)
@@ -70,6 +77,7 @@ void Scene::reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloa
 
 	vertex.reserve(trianglesEstimate * 9); // X,Y,Z × A,B,C
 	colors.reserve(trianglesEstimate * 9); // R,G,B × A,B,C
+	normals.reserve(trianglesEstimate * 3); // X, Y, Z
 
 	for (auto item : items)
 	{
@@ -77,6 +85,7 @@ void Scene::reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloa
 
 		model.PrintVertexPositions(vertex, item.Offset, item.Rotation);
 		model.PrintVertexColors(colors);
+		model.PrintNormalsVertex(normals);
 	}
 }
 
