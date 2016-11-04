@@ -14,16 +14,15 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 {
 	std::vector<GLfloat> vertex;
 	std::vector<GLfloat> colors;
-	std::vector<GLfloat> normals;
 	std::vector<SceneItem> items;
 
 	while (reloadThreadRunning)
 	{
 		if (reloadItems(items))
 		{
-			reloadScene(items, vertex, colors, normals);
+			reloadScene(items, vertex, colors);
 			centerScene(vertex);
-			WavefrontMaster::DropFile(vertex, colors, normals);
+			WavefrontMaster::DropFile(vertex, colors);
 
 			OpenGL::SwapInputBuffers(vertex, colors);
 		}
@@ -64,12 +63,10 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 	return success;
 }
 
-void Scene::reloadScene(std::vector<SceneItem> const & items, 
-	std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors, std::vector<GLfloat> & normals)
+void Scene::reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors)
 {
 	vertex.clear();
 	colors.clear();
-	normals.clear();
 	
 	unsigned trianglesEstimate(0);
 	for (auto item : items)
@@ -77,7 +74,6 @@ void Scene::reloadScene(std::vector<SceneItem> const & items,
 
 	vertex.reserve(trianglesEstimate * 9); // X,Y,Z × A,B,C
 	colors.reserve(trianglesEstimate * 9); // R,G,B × A,B,C
-	normals.reserve(trianglesEstimate * 3); // X, Y, Z
 
 	for (auto item : items)
 	{
@@ -85,7 +81,6 @@ void Scene::reloadScene(std::vector<SceneItem> const & items,
 
 		model.PrintVertexPositions(vertex, item.Offset, item.Rotation);
 		model.PrintVertexColors(colors);
-		model.PrintNormalsVertex(normals);
 	}
 }
 

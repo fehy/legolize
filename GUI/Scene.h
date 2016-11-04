@@ -20,8 +20,7 @@ class Scene
 	/// \return success
 	static bool reloadItems(std::vector<SceneItem> & items);
 
-	static void reloadScene(std::vector<SceneItem> const & items, 
-		std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors, std::vector<GLfloat> & normals);
+	static void reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloat> & vertex, std::vector<GLfloat> & colors);
 
 	static void centerScene(std::vector<GLfloat> & vertex);
 
