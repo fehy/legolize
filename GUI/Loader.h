@@ -11,6 +11,8 @@ class Loader
 
 	static bool readFromConfig_Scene(std::istream & stream, std::string const & label);
 
+	static bool readFromConfig_Wavefront(std::istream & stream, std::string const & label);
+	
 	static void readFromConfig(std::istream & stream);
 
 	static void createDefaultConfig_OpenGL(std::ostream & stream);
@@ -18,6 +20,8 @@ class Loader
 	static void createDefaultConfig_Models(std::ostream & stream);
 
 	static void createDefaultConfig_Scene(std::ostream & stream);
+
+	static void createDefaultConfig_Wavefront(std::ostream & stream);
 
 	static void createDefaultConfig(std::ostream & stream);
 

@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include "Model.h"
+#include "WavefrontMaster.h"
 
 HANDLE Scene::reloadThread(0);
 volatile bool Scene::reloadThreadRunning(false);
@@ -21,6 +22,8 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 		{
 			reloadScene(items, vertex, colors);
 			centerScene(vertex);
+			WavefrontMaster::DropFile(vertex, colors);
+
 			OpenGL::SwapInputBuffers(vertex, colors);
 		}
 
@@ -30,6 +33,7 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 }
 
 long Scene::SCENE_PERIOD(15);
+bool DUMP_WAVEFRONT_SCENE(false);
 std::string Scene::SceneFile;
 
 bool Scene::reloadItems(std::vector<SceneItem> & items)

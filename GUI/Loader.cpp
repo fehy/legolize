@@ -6,29 +6,13 @@
 #include "OpenGL.h"
 #include "Model.h"
 #include "Scene.h"
+#include "WavefrontMaster.h"
 
 bool Loader::readFromConfig_OpenGL(std::istream & stream, std::string const & label)
 {
 	if (label == "FPS_Period")
 	{
 		stream >> OpenGL::FPS_PERIOD;
-		return true;
-	}
-
-	return false;
-}
-
-bool Loader::readFromConfig_Scene(std::istream & stream, std::string const & label)
-{
-	if (label == "Scene_Period")
-	{
-		stream >> Scene::SCENE_PERIOD;
-		return true;
-	}
-
-	if (label == "Scene_File")
-	{
-		stream >> Scene::SceneFile;
 		return true;
 	}
 
@@ -54,6 +38,40 @@ bool Loader::readFromConfig_Models(std::istream & stream, std::string const & la
 	return false;
 }
 
+bool Loader::readFromConfig_Scene(std::istream & stream, std::string const & label)
+{
+	if (label == "Scene_Period")
+	{
+		stream >> Scene::SCENE_PERIOD;
+		return true;
+	}
+
+	if (label == "Scene_File")
+	{
+		stream >> Scene::SceneFile;
+		return true;
+	}
+
+	return false;
+}
+
+bool Loader::readFromConfig_Wavefront(std::istream & stream, std::string const & label)
+{
+	if (label == "DumpWavefrontScene")
+	{
+		stream >> WavefrontMaster::DUMP_WAVEFRONT_SCENE;
+		return true;
+	}
+
+	if (label == "WavefrontFile")
+	{
+		stream >> WavefrontMaster::WAVEFRONT_FILE;
+		return true;
+	}
+
+	return false;
+}
+
 void Loader::readFromConfig(std::istream & stream)
 {
 	// walk config line by line
@@ -73,7 +91,8 @@ void Loader::readFromConfig(std::istream & stream)
 		// Configuration readers
 		bool hit(readFromConfig_OpenGL(lineCont, oneLine) 
 			|| readFromConfig_Models(lineCont, oneLine)
-			|| readFromConfig_Scene(lineCont, oneLine));
+			|| readFromConfig_Scene(lineCont, oneLine)
+			|| readFromConfig_Wavefront(lineCont, oneLine));
 
 		// unknown (filter comment/blank)
 		if (!hit && !oneLine.empty() && oneLine[0] != ';')
@@ -86,15 +105,6 @@ void Loader::createDefaultConfig_OpenGL(std::ostream & stream)
 	stream
 		<< std::endl << ";;;OpenGL settings;;;" << std::endl << std::endl
 		<< "FPS_Period " << OpenGL::FPS_PERIOD << "\t\t; Minimal delay between frames" << std::endl
-		;
-}
-
-void Loader::createDefaultConfig_Scene(std::ostream & stream)
-{
-	stream
-		<< std::endl << ";;;Scene settings;;;" << std::endl << std::endl
-		<< "Scene_Period " << Scene::SCENE_PERIOD << "\t\t; Minimal delay between scene reload" << std::endl
-		<< "Scene_File " << "..\\..\\..\\..\\Scenes\\Scene.scene" << "\t\t; Scene file" << std::endl
 		;
 }
 
@@ -117,11 +127,30 @@ void Loader::createDefaultConfig_Models(std::ostream & stream)
 		;
 }
 
+void Loader::createDefaultConfig_Scene(std::ostream & stream)
+{
+	stream
+		<< std::endl << ";;;Scene settings;;;" << std::endl << std::endl
+		<< "Scene_Period " << Scene::SCENE_PERIOD << "\t\t; Minimal delay between scene reload" << std::endl
+		<< "Scene_File " << "..\\..\\..\\..\\Scenes\\Scene.scene" << "\t\t; Scene file" << std::endl
+		;
+}
+
+void Loader::createDefaultConfig_Wavefront(std::ostream & stream)
+{
+	stream
+		<< std::endl << ";;;Wavefront settings;;;" << std::endl << std::endl
+		<< "DumpWavefrontScene " << WavefrontMaster::DUMP_WAVEFRONT_SCENE << "\t\t; Whether to dump Wavefront obj file each scene" << std::endl
+		<< "WavefrontFile " << "..\\..\\..\\..\\Scenes\\Scene.obj" << "\t\t; Target Wavefront file" << std::endl
+		;
+}
+
 void Loader::createDefaultConfig(std::ostream & stream)
 {
 	createDefaultConfig_OpenGL(stream);
-	createDefaultConfig_Scene(stream);
 	createDefaultConfig_Models(stream);
+	createDefaultConfig_Scene(stream);
+	createDefaultConfig_Wavefront(stream);
 }
 
 void Loader::ProcessConfig(char const * fileName)
