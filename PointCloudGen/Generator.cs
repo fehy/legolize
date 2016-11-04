@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using Legolize;
 using System.Linq;
+using PointCloudGen.Teselation;
 using System.IO;
+using System;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace PointCloudGen
 {
@@ -56,33 +60,68 @@ namespace PointCloudGen
         }
 
 
-        public static PointCloud GenerateABSA(int height, int width)
+        public static PointCloud GenerateFromBMP(string filename, int height, int width, int depth)
         {
             var cloud = new List<Point>();
-            int w, h;
 
-            System.Drawing.Bitmap image = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(@"..\..\..\PointCloudGen\absaImage.bmp", false);
-            w = image.Width;
-            h = image.Height;
+            System.Drawing.Bitmap image = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(filename, false);
+            int wstep = image.Width / width;
+            int hstep = image.Height / height;
 
-            for (int x = 0; x < w; x++)
+            for (int x = 0; x < image.Width; x++)
             {
-                for (int z = 0; z < h; z++)
+                for (int z = 0; z < image.Height; z++)
                 {
                     var p = image.GetPixel(x, z);
                     if (p != image.GetPixel(0, 0))
                     {
-                        for(int y=0; y<10; y++)
-                        cloud.Add(new Point(x, y, z));
+                        for(int y=0; y<depth; y++)
+                        cloud.Add(new Point(-x/wstep, y, -z/hstep));
                     }
                 }
             }
-
-            int i = 0;
             return new PointCloud(cloud.ToArray());
         }
 
 
+        public static PointCloud FromObj(string fileName, float scale = 1, int cutFromBottom = 0)
+        {
+            var mesh = ObjReader.Read(fileName, scale);
+            mesh.Validate();
+            mesh.MakeNormals();
 
+            var min = mesh.Min();
+            var max = mesh.Max();
+
+            var dir = new Vertex(1, 0, 0);
+
+            var cloud = new ConcurrentBag<Point>();
+            Parallel.For((int)min.Z, (int)max.Z, iz =>
+            {
+                Console.WriteLine(iz);
+                for (var iy = (int)min.Y; iy < max.Y; iy++)
+                {                    
+                    var r = mesh.Collide(new Vertex(0, iy, iz), dir);
+
+                    for (var i = 1; i < r.Length; i += 2)
+                    {
+                        for (var ix = (int)r[i - 1]; ix < r[i]; ix++)
+                            cloud.Add(new Point(ix, iz, iy));
+                    }
+
+                }
+            });
+
+
+            if(cutFromBottom > 0)
+            {
+                var zMin = cloud.Min(x => x.Z);
+                zMin += cutFromBottom;
+
+                return new PointCloud(cloud.Where(x => x.Z >= zMin).ToArray());
+            }
+
+            return new PointCloud(cloud.ToArray());
+        }
     }
 }
