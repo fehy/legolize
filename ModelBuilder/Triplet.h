@@ -9,15 +9,13 @@ struct Triplet
 	float Y;
 	float Z;
 
-	Triplet operator-(Triplet const & other) const;
-
-	static Triplet CrossProduct(Triplet const & left, Triplet const & right);
-
-	static float DotProduct(Triplet const & left, Triplet const & right);
-
-	static Triplet ComputeNormal(Triplet const & a, Triplet const & b, Triplet const & c);
-
 	Triplet(float x, float y, float z);
+
+	Triplet operator+(float modifier) const;
+	Triplet operator+(Triplet const & modifier) const;
+
+	Triplet operator*(float modifier) const;
+	Triplet operator*(Triplet const & modifier) const;
 
 	void Serialize(std::ostream & stream) const;
 };
