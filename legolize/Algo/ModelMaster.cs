@@ -165,7 +165,7 @@ namespace Legolize.Algo
                     { x += 3; continue; }
                     if (!Model[x+2, y, zt] || !Model[x + 2, y+1, zt])
                     { x += 2; continue; }
-                    if (!Model[x+1, y, zt] || Model[x + 1, y + 1, zt])
+                    if (!Model[x+1, y, zt] || !Model[x + 1, y + 1, zt])
                     { x++; continue; }
                     if (!Model[x, y, zt] || !Model[x, y+1, zt])
                         continue;

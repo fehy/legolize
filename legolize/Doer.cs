@@ -28,7 +28,8 @@ namespace Legolize
                 }
             }
 
-            return ret.Select(x => new LegoModeler.Brick(x.BrickType, x.X, x.Y, x.Z * 2f, x.BrickRotation)).ToArray();
+            return ret.ToArray();
+            //return ret.Select(x => new LegoModeler.Brick(x.BrickType, x.X, x.Y, x.Z * 2f, x.BrickRotation)).ToArray();
         }
 
         public static LegoModeler.Brick[] Do(PointCloud cloud)
@@ -62,7 +63,7 @@ namespace Legolize
             master.SlotsToSearch = Tuple.Create(0, master.Slots.Count);
 
             var algo = new BruteForceAlgo(master);
-            return Convert(algo.Go(1000000));
+            return Convert(algo.Go(10000));
         }
     }
 }

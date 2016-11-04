@@ -28,8 +28,7 @@ namespace Legolize.Algo
 
             master.SlotToBrick();
             master.CreateNewSlots();
-
-            // should we go forward or backward ? 
+            
             var volume = master.Bricks.Select(x => x.Volume).Sum();
             if (volume > _volumeSoFar)
             {
@@ -52,7 +51,8 @@ namespace Legolize.Algo
         public void StepBack()
         {
             _masters.Pop();
-            _masters.Peek().MoveBack();
+            if(_masters.Count != 0)
+                _masters.Peek().MoveBack();
         }
 
         public Brick[] Go(int cycles)
@@ -60,7 +60,7 @@ namespace Legolize.Algo
 
             for (var i = 0; i < cycles; i++)
             {
-                if ((i & 0x1ffff) == 0)
+                if ((i & 0xdff) == 0)
                     Console.WriteLine(i);
 
                 while (_masters.Count > 0 && _masters.Peek().NRemainingSlotsToSearch == 0)
