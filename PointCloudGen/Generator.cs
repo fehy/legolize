@@ -3,6 +3,9 @@ using Legolize;
 using System.Linq;
 using PointCloudGen.Teselation;
 using System.IO;
+using System;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace PointCloudGen
 {
@@ -84,17 +87,36 @@ namespace PointCloudGen
         }
 
 
-
-
         public static PointCloud FromObj(string fileName, float scale = 1)
         {
-            var mesh = ObjReader.Read(fileName, 10);
+            var mesh = ObjReader.Read(fileName, scale);
             mesh.Validate();
-
             mesh.MakeNormals();
 
-            var r = mesh.Collide(new Vertex(-1, 0.2f, 0.4f), new Vertex(1, 0, 0).Normalize());
-            return Clock(10, 5);
+            var min = mesh.Min();
+            var max = mesh.Max();
+
+            var dir = new Vertex(1, 0, 0);
+
+            var cloud = new ConcurrentBag<Point>();
+            Parallel.For((int)min.Z, (int)max.Z, iz =>
+            {
+                Console.WriteLine(iz);
+                for (var iy = (int)min.Y; iy < max.Y; iy++)
+                {
+                    Console.WriteLine(iy);
+                    var r = mesh.Collide(new Vertex(0, iy, iz), dir);
+
+                    for (var i = 1; i < r.Length; i += 2)
+                    {
+                        for (var ix = (int)r[i - 1]; ix < r[i]; ix++)
+                            cloud.Add(new Point(ix, iy, iz));
+                    }
+
+                }
+            });
+
+            return new PointCloud(cloud.ToArray());
         }
     }
 }

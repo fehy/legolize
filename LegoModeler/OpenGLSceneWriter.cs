@@ -63,13 +63,13 @@ namespace LegoModeler
             switch (brick.BrickType)
             {
                 case BrickType.B1x1:
-                    return TotalColors * 0 + color;
+                    return TotalColors * 0 + 0;
 
                 case BrickType.B2x2:
-                    return TotalColors * 1 + color;
+                    return TotalColors * 1 + 1;
 
                 case BrickType.B4x2:
-                    return TotalColors * 2 + color;
+                    return TotalColors * 2 + 2;
 
                 default:
                     throw new ArgumentException(brick.BrickType.ToString());

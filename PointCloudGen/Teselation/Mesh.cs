@@ -128,6 +128,38 @@ namespace PointCloudGen.Teselation
             }
         }
 
+        public Vertex Min()
+        {
+            var xMin = float.MaxValue;
+            var yMin = float.MaxValue;
+            var zMin = float.MaxValue;
+
+            foreach (var vert in _vertexes)
+            {
+                xMin = Math.Min(xMin, vert.X);
+                yMin = Math.Min(yMin, vert.Y);
+                zMin = Math.Min(zMin, vert.Z);
+            }
+
+            return new Vertex(xMin, yMin, zMin);
+        }
+
+        public Vertex Max()
+        {
+            var xMax = float.MinValue;
+            var yMax = float.MinValue;
+            var zMax = float.MinValue;
+
+            foreach (var vert in _vertexes)
+            {
+                xMax = Math.Max(xMax, vert.X);
+                yMax = Math.Max(yMax, vert.Y);
+                zMax = Math.Max(zMax, vert.Z);
+            }
+
+            return new Vertex(xMax, yMax, zMax);
+        }
+
         public float[] Collide(Vertex P0, Vertex dir)
         {
 
@@ -142,15 +174,19 @@ namespace PointCloudGen.Teselation
                 if (Single.IsNaN(r) || Single.IsInfinity(r) )
                     continue;
 
-                var Pt = P0.Add(dir.Mult(r));                
+                var Pt = P0.Add(dir.Mult(r));
 
-                if (v1.Sub(v0).VectorMult(Pt.Sub(v0)).ScalarMult(face.Normal) < 0)
+                var l0 = Pt.Sub(v0);
+                var l1 = Pt.Sub(v1);
+                var l2 = Pt.Sub(v2);
+
+                if (l0.VectorMult(l1).ScalarMult(face.Normal) < 0)
                     continue;
 
-                if (v2.Sub(v1).VectorMult(Pt.Sub(v1)).ScalarMult(face.Normal) < 0)
+                if (l1.VectorMult(l2).ScalarMult(face.Normal) < 0)
                     continue;
 
-                if (v0.Sub(v2).VectorMult(Pt.Sub(v2)).ScalarMult(face.Normal) < 0)
+                if (l2.VectorMult(l0).ScalarMult(face.Normal) < 0)
                     continue;
 
                 res.Add(r);

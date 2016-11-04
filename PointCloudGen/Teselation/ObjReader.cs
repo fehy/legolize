@@ -19,7 +19,7 @@ namespace PointCloudGen.Teselation
             {
                 if (line.StartsWith("v "))
                 {
-                    var parts = line.Split(' ');
+                    var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length != 4)
                         //throw new NotSupportedException();
                         continue;
@@ -28,7 +28,7 @@ namespace PointCloudGen.Teselation
                 }
                 else if(line.StartsWith("f "))
                 {
-                    var parts = line.Split(' ');
+                    var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length != 4)
                         //throw new NotSupportedException();
                         continue;

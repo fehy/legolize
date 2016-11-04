@@ -43,7 +43,7 @@ GLvoid OpenGL::resizeGLScene(GLsizei width, GLsizei height)
 	glLoadIdentity();             // Reset The Projection Matrix
 
 	// Calculate The Aspect Ratio Of The Window
-	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 500.0f);
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 10.0f, 500.0f);
 
 	glMatrixMode(GL_MODELVIEW);   // Select The Modelview Matrix
 	glLoadIdentity();             // Reset The Modelview Matrix
@@ -426,38 +426,38 @@ void OpenGL::controllBox()
 	if (!keys[VK_SHIFT])
 	{
 		if (keys[VK_RIGHT])
-			xPos += .1f;
+			xPos += .5f;
 		else if (keys[VK_LEFT])
-			xPos -= .1f;
+			xPos -= .5f;
 
 		if (keys[VK_UP])
-			yPos += .1f;
+			yPos += .5f;
 		else if (keys[VK_DOWN])
-			yPos -= .1f;
+			yPos -= .5f;
 
 		if (keys[VK_HOME])
-			zPos += .1f;
+			zPos += .5f;
 		else if (keys[VK_END])
-			zPos -= .1f;
+			zPos -= .5f;
 	}
 
 	// Rotation handling
 	if (keys[VK_SHIFT])
 	{
 		if (keys[VK_DOWN])
-			xRot += 1.0f;
+			xRot += 5.0f;
 		else if (keys[VK_UP])
-			xRot -= 1.0f;
+			xRot -= 5.0f;
 
 		if (keys[VK_RIGHT])
-			yRot += 1.0f;
+			yRot += 5.0f;
 		else if (keys[VK_LEFT])
-			yRot -= 1.0f;
+			yRot -= 5.0f;
 
 		if (keys[VK_HOME])
-			zRot += 1.0f;
+			zRot += 5.0f;
 		else if (keys[VK_END])
-			zRot -= 1.0f;
+			zRot -= 5.0f;
 	}
 }
 
