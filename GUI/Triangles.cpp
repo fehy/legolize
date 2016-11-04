@@ -71,7 +71,7 @@ Vertice::Vertice(std::istream & stream)
 {}
 
 Triangle::Triangle(std::istream & stream)
-	: A(stream), B(stream), C(stream), Normal(stream)
+	: A(stream), B(stream), C(stream)
 {}
 
 void Triangle::PrintVertexPosition(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation)

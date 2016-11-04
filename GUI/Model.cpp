@@ -33,9 +33,3 @@ void Model::PrintVertexColors(std::vector<GLfloat> & target) const
 	for (auto triangle : Triangles)
 		triangle.PrintVertexColor(target);
 }
-
-void Model::PrintNormalsVertex(std::vector<GLfloat> & target) const
-{
-	for (auto triangle : Triangles)
-		triangle.Normal.Print(target);
-}
