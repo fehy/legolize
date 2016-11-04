@@ -57,19 +57,16 @@ namespace LegoModeler
         
         private static int Model(Brick brick)
         {
-            const int TotalColors = 4; // RGBY
-            var color = ((int)(brick.X + brick.Y + brick.Z)) % TotalColors;
-
             switch (brick.BrickType)
             {
                 case BrickType.B1x1:
-                    return TotalColors * 0 + 0;
+                    return 0;
 
                 case BrickType.B2x2:
-                    return TotalColors * 1 + 1;
+                    return 1;
 
                 case BrickType.B4x2:
-                    return TotalColors * 2 + 2;
+                    return 2;
 
                 default:
                     throw new ArgumentException(brick.BrickType.ToString());

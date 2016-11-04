@@ -12,6 +12,11 @@ namespace Legolizer
             //var bricks = Doer.Do(PointCloudGen.Generator.Cube(10, 8, 2));
             //var bricks = Doer.Do(PointCloudGen.Generator.Clock(15, 4));
             //var bricks = Doer.Do(PointCloudGen.Generator.Cone(4, 15, 1));
+
+            //var bricks = Doer.Do(PointCloudGen.Generator.GenerateFromBMP(@"..\..\..\PointCloudGen\absaImage.bmp", 100, 200, 5));
+            //var bricks = Doer.Do(PointCloudGen.Generator.GenerateFromBMP(@"..\..\..\PointCloudGen\barclays.bmp", 50, 250, 1));
+            var bricks = Doer.Do(PointCloudGen.Generator.GenerateFromBMP(@"..\..\..\PointCloudGen\barclaysSmall.bmp", 41, 250, 5));
+
             //var bricks = Doer.Do(PointCloudGen.Generator.RotatedClock(15, 4));
             var bricks = Doer.Do(PointCloudGen.Generator.FromObj(@"C:\work\users\fehy\playground\hackatlon\data\Touareg.obj", 0.03f));
             //var bricks = Doer.Do(PointCloudGen.Generator.FromObj(@"C:\work\users\fehy\playground\hackatlon\data\Ball OBJ.obj",10));

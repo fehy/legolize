@@ -60,29 +60,26 @@ namespace PointCloudGen
         }
 
 
-        public static PointCloud GenerateABSA(int height, int width)
+        public static PointCloud GenerateFromBMP(string filename, int height, int width, int depth)
         {
             var cloud = new List<Point>();
-            int w, h;
 
-            System.Drawing.Bitmap image = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(@"..\..\..\PointCloudGen\absaImage.bmp", false);
-            w = image.Width;
-            h = image.Height;
+            System.Drawing.Bitmap image = (System.Drawing.Bitmap)System.Drawing.Image.FromFile(filename, false);
+            int wstep = image.Width / width;
+            int hstep = image.Height / height;
 
-            for (int x = 0; x < w; x++)
+            for (int x = 0; x < image.Width; x++)
             {
-                for (int z = 0; z < h; z++)
+                for (int z = 0; z < image.Height; z++)
                 {
                     var p = image.GetPixel(x, z);
                     if (p != image.GetPixel(0, 0))
                     {
-                        for(int y=0; y<10; y++)
-                        cloud.Add(new Point(x, y, z));
+                        for(int y=0; y<depth; y++)
+                        cloud.Add(new Point(-x/wstep, y, -z/hstep));
                     }
                 }
             }
-
-            int i = 0;
             return new PointCloud(cloud.ToArray());
         }
 

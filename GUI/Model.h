@@ -20,7 +20,6 @@ struct Model
 
 	void PrintVertexPositions(std::vector<GLfloat> & target, PntVector const & offset, GLint rotation) const;
 	void PrintVertexColors(std::vector<GLfloat> & target) const;
-	void PrintNormalsVertex(std::vector<GLfloat> & target) const;
 };
 
 #endif

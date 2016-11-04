@@ -58,6 +58,11 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 	if (!success)
 		std::cout << "LoadScene failed in the middle" << std::endl;
 
+	static unsigned lastItems(0U);
+	if (items.size() < lastItems)
+		std::cout << "LoadScene itemsDrop from " << lastItems << " to " << items.size() << std::endl;
+	lastItems = items.size();
+
 	stream.close();
 	_unlink(SceneFile.c_str());
 	return success;
@@ -87,9 +92,9 @@ void Scene::reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloa
 void Scene::centerScene(std::vector<GLfloat> & vertex)
 {
 	assert(vertex.size() % 3 == 0);
-	GLfloat extremeX = 0;
-	GLfloat extremeY = 0;
-	GLfloat extremeZ = 0;
+	static GLfloat extremeX = 0;
+	static GLfloat extremeY = 0;
+	static GLfloat extremeZ = 0;
 
 	auto cpnter(vertex.cbegin());
 	while (cpnter != vertex.cend())
