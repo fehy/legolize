@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include "Model.h"
+#include "WavefrontMaster.h"
 
 HANDLE Scene::reloadThread(0);
 volatile bool Scene::reloadThreadRunning(false);
@@ -21,6 +22,8 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 		{
 			reloadScene(items, vertex, colors);
 			centerScene(vertex);
+			WavefrontMaster::DropFile(vertex, colors);
+
 			OpenGL::SwapInputBuffers(vertex, colors);
 		}
 
@@ -30,6 +33,7 @@ unsigned _stdcall Scene::realoadSceneHandler(void * instance)
 }
 
 long Scene::SCENE_PERIOD(15);
+bool DUMP_WAVEFRONT_SCENE(false);
 std::string Scene::SceneFile;
 
 bool Scene::reloadItems(std::vector<SceneItem> & items)
@@ -53,6 +57,11 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 	
 	if (!success)
 		std::cout << "LoadScene failed in the middle" << std::endl;
+
+	static unsigned lastItems(0U);
+	if (items.size() < lastItems)
+		std::cout << "LoadScene itemsDrop from " << lastItems << " to " << items.size() << std::endl;
+	lastItems = items.size();
 
 	stream.close();
 	_unlink(SceneFile.c_str());
@@ -83,9 +92,9 @@ void Scene::reloadScene(std::vector<SceneItem> const & items, std::vector<GLfloa
 void Scene::centerScene(std::vector<GLfloat> & vertex)
 {
 	assert(vertex.size() % 3 == 0);
-	GLfloat extremeX = 0;
-	GLfloat extremeY = 0;
-	GLfloat extremeZ = 0;
+	static GLfloat extremeX = 0;
+	static GLfloat extremeY = 0;
+	static GLfloat extremeZ = 0;
 
 	auto cpnter(vertex.cbegin());
 	while (cpnter != vertex.cend())

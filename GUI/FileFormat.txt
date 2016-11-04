@@ -11,8 +11,6 @@ Triangle:
 		[GLfloat * 3] r,g,b of point B
 		[GLfloat * 3] x,y,z of point C
 		[GLfloat * 3] r,g,b of point C
-	Triangle normal
-		[GLfloat * 3] x,y,z of normal
 
 ==SCENE FILE==
 Bricks (no separator, no trailer, no header)

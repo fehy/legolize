@@ -118,6 +118,7 @@
     <ClCompile Include="SceneItem.cpp" />
     <ClCompile Include="Tools.cpp" />
     <ClCompile Include="Triangles.cpp" />
+    <ClCompile Include="WavefrontMaster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonClassMacros.h" />
@@ -129,6 +130,7 @@
     <ClInclude Include="SceneItem.h" />
     <ClInclude Include="Tools.h" />
     <ClInclude Include="Triangles.h" />
+    <ClInclude Include="WavefrontMaster.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Controls.txt" />

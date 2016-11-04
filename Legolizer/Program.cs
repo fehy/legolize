@@ -7,7 +7,7 @@ namespace Legolizer
     {
         static void Main(string[] args)
         {
-            //var bricks = Doer.Do(PointCloudGen.Generator.Cube(10, 8, 2));            
+            var bricks = Doer.Do(PointCloudGen.Generator.Cube(10, 8, 2));            
             //var bricks = Doer.Do(PointCloudGen.Generator.Clock(15, 4));
             //var bricks = Doer.Do(PointCloudGen.Generator.Cone(4, 15, 1));
 
@@ -25,7 +25,7 @@ namespace Legolizer
 
             //new GenerateStaticBricks().OutputToLdr(bricks);
 
-            //new OpenGLSceneWriter("..\\..\\..\\Scenes\\Scene.scene").Write(bricks);
+            new OpenGLSceneWriter("..\\..\\..\\Scenes\\Scene.scene").Write(bricks);
         }
     }
 }
