@@ -86,9 +86,9 @@ void normalize(std::vector<Triplet> & vertex, Triplet dimension)
 
 	for (auto & triplet : vertex)
 	{
-		triplet.X = (triplet.X - minX) * scale.X;
-		triplet.Y = (triplet.Y - minY) * scale.Y;
-		triplet.Z = (triplet.Z - minZ) * scale.Z;
+		triplet.X = (triplet.X - minX) * scale.X - dimension.X*0.5f;
+		triplet.Y = (triplet.Y - minY) * scale.Y - dimension.Y*0.5f;
+		triplet.Z = (triplet.Z - minZ) * scale.Z - dimension.Z*0.5f;
 	}
 }
 
