@@ -59,9 +59,21 @@ bool Scene::reloadItems(std::vector<SceneItem> & items)
 		std::cout << "LoadScene failed in the middle" << std::endl;
 
 	static unsigned lastItems(0U);
+	static unsigned failSpace = 3;
 	if (items.size() < lastItems)
-		std::cout << "LoadScene itemsDrop from " << lastItems << " to " << items.size() << std::endl;
+	{
+		if (failSpace > 0)
+		{
+			std::cout << "LoadScene itemsDrop from " << lastItems << " to " << items.size() << " ignoring" << std::endl;
+			--failSpace;
+		}
+		std::cout << "LoadScene itemsDrop from " << lastItems << " to " << items.size() << " proceeding" << std::endl;
+	}
+	else
+		failSpace = 3;
+
 	lastItems = items.size();
+
 
 	stream.close();
 	_unlink(SceneFile.c_str());

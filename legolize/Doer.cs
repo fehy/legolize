@@ -28,7 +28,7 @@ namespace Legolize
                 }
             }
 
-            return ret.Select(x => new LegoModeler.Brick(x.BrickType, x.X, x.Y, x.Z * 2f, x.BrickRotation)).ToArray();
+            return ret.ToArray();
         }
 
         public static LegoModeler.Brick[] Do(PointCloud cloud)

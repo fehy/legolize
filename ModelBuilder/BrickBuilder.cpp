@@ -20,7 +20,7 @@ void BrickBuilder::storeFace(std::ostream & stream,
 	Triplet const & TL, Triplet const & TR, Triplet const & BR, Triplet const & BL, Triplet const & color)
 {
 	storeTriangle(stream, TL, TR, BR, color);
-	storeTriangle(stream, BR, BL, TL, color * 0.9);
+	storeTriangle(stream, BR, BL, TL, color * 0.9f);
 }
 
 void BrickBuilder::nearFace(std::ostream & stream, Triplet const & low, Triplet const & high, Triplet const & color)
@@ -92,15 +92,26 @@ bool BrickBuilder::BuildBrick(char const * fileName, Triplet const & dimension, 
 		return false;
 	}
 
+	// Core
 	auto low(dimension * -0.5f + 0.05f);
 	auto high(dimension * 0.5f + -0.05f);
-	
 	nearFace(file, low, high, color);
 	farFace(file, low, high, color);
 	topFace(file, low, high, color);
-	bottomFace(file, low, high, color);
+	bottomFace(file, low, high, color*0.9f);
 	leftFace(file, low, high, color);
 	rightFace(file, low, high, color);
+
+	// Topper
+	float topperGap(0.1f);
+	auto topperColor(color * 0.7f);
+	Triplet topperLow(low.X + topperGap, low.Y + topperGap, high.Z);
+	Triplet topperHigh(high.X - topperGap, high.Y - topperGap, high.Z + topperGap);
+	nearFace(file, topperLow, topperHigh, topperColor);
+	farFace(file, topperLow, topperHigh, topperColor);
+	topFace(file, topperLow, topperHigh, topperColor);
+	leftFace(file, topperLow, topperHigh, topperColor);
+	rightFace(file, topperLow, topperHigh, topperColor);
 
 	auto success(file.good());
 	file.close();

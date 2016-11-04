@@ -88,12 +88,14 @@
     <ClCompile Include="HeightMapHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Triplet.cpp" />
+    <ClCompile Include="Wavefront.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrickBuilder.h" />
     <ClInclude Include="ConfigHandler.h" />
     <ClInclude Include="HeightMapHandler.h" />
     <ClInclude Include="Triplet.h" />
+    <ClInclude Include="Wavefront.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
